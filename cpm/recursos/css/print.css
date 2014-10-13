@@ -1,0 +1,56 @@
+
+*{
+	/*border:solid yellow; */
+	font-family: arial, verdana, sans-serif;
+
+}
+
+body{
+
+}
+
+.teu{
+	margin: 20px auto; /* para centrar la página */
+	width: 900px;	/* para que el ancho sea fijo */
+	overflow: hidden;
+	color: black;
+	text-shadow:0 0 2px rgb(255,0,0);
+	padding: 50px;
+	background: rgb(142,142,142);
+}
+
+.teu2{
+	text-align:right;
+}
+
+#encabezado{
+	color: black;
+	background: rgb(142,142,142);
+}
+
+img {
+    padding: 10px 35px;
+}
+
+p{
+    float:left;
+    text-shadow:none;
+    color: black/*rgb(230,200,50)*/;
+}
+
+a:link {
+	text-decoration:none;
+	text-shadow:none;
+	color:black/*rgb(230,200,50)*/;
+}
+
+#piej{
+	display:none;
+	font-size:10px;
+	color: rgb(100,100,100);
+	width:100%;
+}
+#menu_up{
+    display: none;
+}
+

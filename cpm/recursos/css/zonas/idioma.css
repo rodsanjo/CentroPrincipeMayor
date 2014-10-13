@@ -1,0 +1,30 @@
+/* 
+    Document   : idioma
+    Created on : 08-jul-2014, 0:41:04
+    Author     : Jorge Rodríguez <jergo23@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+#idioma{
+    font-family: sans-serif, arial, verdana;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width:5%;
+    font-size: 75%;
+    font-weight:bold;
+    background: rgba(200,200,15,0.5);
+    border-radius: 0px 0px 20px 20px;
+}
+#idioma img{
+    width:30px;  
+}
+#idioma a{
+    width:30px;
+   display: none;
+}
+

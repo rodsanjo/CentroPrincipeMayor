@@ -1,0 +1,15 @@
+key|text
+mensajeGlobal|Rellene los campos correctamente, por favor.
+notnull|Esta entrada es obligatoria, no puede quedarse vacía.
+prohibido_punto_y_coma|No se admite ";" en el campo.
+numero|
+int_pos|Contiene caracteres no válidos. Sólo se admiten números positivos sin signo.
+texto|Debe ser una cadena con un carácter como mínimo.
+identificador|Contiene caracteres no válidos. Sólo se admiten letras, números y _ , y no puede comenzar por número.
+entero_positivo|Contiene caracteres no válidos. Sólo se admiten números positivos sin signo.
+precio|Error: El número debe escribirse con separador de miles(.) y coma decimal(,) y máximo dos decimales.
+decimal|Error: El número debe escribirse usando "." o"," como separador decimal y sin separador de miles.
+fecha|La fecha es errónea. Escribala en formato dd-mm-aaaa o dd/mm/aaaa, por favor.
+unicidad_parte1|El/Los valor/es aportado/s
+unicidad_parte2|ya existe/n en la base de datos. Escribe otro valor.
+numero_entero|Debe ser un número entero positivo o negativo.

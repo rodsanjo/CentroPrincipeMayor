@@ -1,0 +1,23 @@
+/* 
+    Document   : contacto
+    Created on : 08-jul-2014, 0:23:54
+    Author     : Jorge Rodríguez <jergo23@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+input, textarea{
+    /*background: wheat;*/
+}
+.input_error{
+    color: yellow;
+}
+#contacto p{
+    float:none;
+}
+
+

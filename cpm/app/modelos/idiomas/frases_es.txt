@@ -1,0 +1,26 @@
+key|sentence
+saludo1|Bienvenido a 3da2 juegos de mesa
+mensajeRegistro|<div><b>Cuenta creada satisfactoriamente.</b><p>Se ha enviado un correo electrónico a la cuenta de email aportada.</p> <p>Para confimar su alta, consulte su correo electrónico y haga click en el vínculo que se le ha enviado. Si no lo encuentra en la bandeja de entrada <b>revise su spam</b>, por favor.</p></div>
+mensajeVerificacion|Para VERIFICAR su dirección de email por 3da2 juegos de mesa, click en el siguiente enlace o introduccalo en su navegador.
+Fecha última actualización|
+Ver el contenido del baúl|
+Modificar datos|
+Cambiar contraseña|
+Repita el email|
+Repita la contraseña|
+sinComentarios|¡¡Sea el primero!!
+opina|¡Danos tu opinión!
+Reglamento no disponible|
+Más detalles|
+Leer reseña|
+parrafo1|Si eres un amante de los juegos de mesa, está es tu página Web ideal. Aquí podrás encontrar una ámplia gama de juegos de mesa con comentarios de los jugadores que han probado el articulo, de esta manera podrás escoger mejor cuál será tu elección a la hora de adquirir un nuevo juego de mesa, y poder tener una descripción más detallada del producto, para un posible regalo o para disfrute propio con los amigos y familiares. Además encontrarás accesorios para poder completar tus juegos, y por qué no crear los tuyos propios. Si tienes algún juego creado por ti, hadnoslo saber a través de nuestro formulario de contacto. Podremos ayudarte para publicitarlo en nuestra página y ayudarte en su futura distribución. ¡Aceptamos las grandes ideas! y estamos deseando de conocerlas y que en compañia podamos pasar un buen rato.
+Reglamentos de juegos de mesa|
+Reglamentos de juego disponibles|
+paraContactar|Si quiere ponerse en contacto con nosotros para cualquier consulta, puede hacerlo a través de nuestro correo electrónico: <a href="mailto:email@email.com">email@email.com</a> o bien mediante el siguiente formulario y le contestaremos lo antes posible.
+totalDescargas|Número de descargas
+Reglamento de|
+Enanos de Breslavia|
+Últimas novedades|
+nº jugadores min|
+nº jugadores max|
+Enanos encontrados en Breslavia|

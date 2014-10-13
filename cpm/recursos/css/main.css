@@ -1,0 +1,162 @@
+
+*{
+    /*border:solid yellow; */
+    font-family: arial, verdana, sans-serif, Times New Roman, Georgia;
+}
+
+body{
+    background: rgb(220,220,220) /* rgb(145,145,145) url(../imagenes/fondo.jpg)*/;
+    background-size: 100% auto;
+    color: black;
+    font-family: 'Ubuntu', sans-serif;
+}
+label{
+    color:black;
+}
+.teu{
+    margin: 5px auto;
+    width: 1000px;	/* para que el ancho sea fijo */
+    /*width: 90% auto;	/* para que el ancho variable */
+    overflow: hidden;
+    /*text-shadow:0 0 2px rgb(255,0,0); /*opcional*/
+    padding: 10px 30px;
+    background: rgb(240,240,255)/* rgb(174,205,145) url(../imagenes/fondo.jpg)*/;
+    background-size: auto; /* el background del teu*/
+}
+
+@media screen and (min-width: 1500px) {
+    .teu{
+	background-size: 100% auto; /* el background del teu*/
+        width: 1200px;	/* para que el ancho sea fijo */
+        margin: 20px auto; /* para centrar la página */
+    }
+}
+
+#view_content{
+    clear:both;
+}
+
+.pie{
+    text-align:right;
+}
+
+#encabezado{
+    color: white;
+    background: rgb(174,205,145);
+}
+
+#encabezado h3{
+    float: left;
+}
+
+img {
+    padding: 10px 35px;
+}
+
+p{
+    float:left;
+    text-shadow:none;
+}
+
+a:link {
+    text-decoration:none;
+    text-shadow:none;
+    color: black;
+}
+a:visited{
+    color: black;
+}
+a:hover{
+    color: blue;
+}
+
+.input_error{
+    color: red;
+    font-size: 90%;
+}
+
+#piej{
+    font-size:11px;
+    width:100%;
+    background: rgb(174,205,145);
+    overflow: hidden;
+}
+
+/* Adaptaciones a Bootstrap */
+.container .teu {
+  border-radius: 20px;
+  
+}
+.separacion{
+    margin-top: 60px;
+}
+#menu_up {
+    width: 100%;
+    background: rgb(174,205,145);
+    border-radius: 0% 0% 15px 15px;
+    margin: auto;
+    padding: 0px 30px;
+}
+
+#conexion{
+    float: right;
+    padding-right: 10%; 
+}
+
+.form_derecha{
+    float:right;
+    width: 65%;
+}
+
+
+/* Modificaciones Bootstrap*/
+.form-control {
+  height: 25px;
+  padding: 3px 6px;
+  font-size: 12px;
+}
+.btn {
+    padding: 2px 6px;
+    margin: 6px 12px;
+}
+.container {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.boton1{
+    background: rgb(174,205,145);
+    border-radius: 20px;
+    height: 35px;
+    width: 100%;
+    margin-left: 5px;
+}
+.botonAdmin{
+    margin: 5px 5px;
+    padding: 10px;
+    line-height: 200%;
+    background-color: green;
+    color: black;
+    border: 2px solid brown;
+    text-decoration: none;
+    border-radius: 30px;
+    cursor:pointer;
+}
+.navbar-default .navbar-brand{
+    color: black;
+}
+
+
+/*
+@media (min-width: 1600px){
+    .container {
+        width: 1550px;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 992px){
+    .separacion{
+        /*margin-top: 110px;
+    }
+}
+*/

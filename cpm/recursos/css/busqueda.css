@@ -1,0 +1,111 @@
+/* 
+    Document   : busqueda_mini
+    Created on : 14-ago-2014, 17:56:32
+    Author     : Jorge Rodríguez <jergo23@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+#busqueda_mini{
+    margin: 10px 0px;
+    overflow: hidden;
+    float: left;
+}
+#buscar{
+    background: rgba(60,60,60,0.2);
+    border-radius: 15px;
+    padding: 10px 3%;
+}
+input,select {
+    height: 35px;
+    border-radius: 10px;
+    padding-left: 10px;
+    margin: 7px;
+}
+
+#buscar .titulo_seccion{
+    text-align: center;
+}
+
+#inmuebles > *{
+    /*float: left;*/
+}
+
+#inmuebles #busqueda_mini{
+    width: 25%;
+    float: left;
+}
+
+#inmuebles #resultado_busqueda {
+    width: 75%;
+    float: left;
+}
+
+#inmuebles #resultado_busqueda *{
+    padding: 1% 4%;
+    overflow: hidden;
+    float: left;
+}
+
+.inmueble{
+    border: black 2px solid;
+    background: rgba(100,100,100,0.2);
+    border-radius: 25px;
+    width: 100%;
+    margin: 0 0 1% 0; 
+    padding: 2%;
+}
+.inmueble:hover{
+    background: whitesmoke;
+    border: 2px green solid;
+}
+
+.inmueble > div{
+    width: 50%;
+    padding: 10px;
+    float: left;
+    margin-bottom: 2px;
+}
+.inmueble > div > *{
+    float: right;
+    clear: both;
+}
+.inmueble img{
+    height: 100px;
+}
+
+.right-precio {
+    float: right;
+    text-align: right;
+    font-size: 25px;
+    color: #272727;
+    font-weight: bold;
+}
+
+.botonBuscar{
+    width: 94%;
+    padding: auto;
+}
+#busqueda_mini #buscar h3{
+    margin: 0px auto 2%;
+}
+#busqueda_mini #buscar select, #busqueda_mini #buscar input{
+    margin: 0px auto 5%;
+}
+#busqueda_mini #buscar select{
+    text-align: right;
+    width: 100%;
+}
+
+
+/*
+#busqueda_mini #buscar label{
+    text-align: left;
+    width: 45%;
+}*/
+#busqueda_mini #buscar input{
+    width: 100%;
+}

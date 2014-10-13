@@ -1,0 +1,67 @@
+/* 
+    Document   : busqueda
+    Created on : 14-ago-2014, 17:56:32
+    Author     : Jorge Rodríguez <jergo23@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+#inicio{
+    margin: 10px 0px;
+    overflow: hidden;
+}
+#buscar{
+    background: rgba(60,60,60,0.2);
+    border-radius: 25px;
+    padding: 10px 3%;
+}
+input,select {
+    height: 35px;
+    border-radius: 10px;
+    padding-left: 10px;
+    margin: 7px;
+}
+
+.botonBuscar{
+    background: rgb(174,205,145);
+    border-radius: 25px;
+    height: 35px;
+    width: 100px;
+}
+#buscar .titulo_seccion{
+    text-align: center;
+}
+#busqueda #buscar{
+    width: 40%;
+    float: left;
+}
+.botonBuscar{
+    width: 94%;
+    padding: auto;
+}
+#busqueda #buscar h3{
+    margin: 0px auto 2%;
+}
+#busqueda #buscar select, #busqueda #buscar input{
+    margin: 0px auto 5%;
+}
+#busqueda #buscar select{
+    text-align: right;
+    width: 100%;
+}
+/*
+#busqueda #buscar label{
+    text-align: left;
+    width: 45%;
+}*/
+#busqueda #buscar input{
+    width: 100%;
+}
+
+#acciones{
+    clear: both;
+    text-align: center;
+}

@@ -1,0 +1,86 @@
+/* 
+    Document   : bienes
+    Created on : 08-oct-2014, 14:18:57
+    Author     : Jorge Rodríguez <jergo23@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#inmueble *{ 
+    /*border: red 1px solid;*/
+}
+
+#datos_inmueble .titulo{
+    float: left;
+    color: green;
+    padding-left: 1%;
+}
+#datos_inmueble .titulo h2{
+    margin-top: 1px;
+}
+#datos_inmueble .titulo p{
+    margin-bottom: 0px;
+}
+.right_precio{
+    border: solid white 1px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background-color: rgb(174,205,145);
+    width: 30%;
+    padding: 2%;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+    margin-right: 3%;
+    float: right;
+}
+#top{
+    padding: 0;
+    overflow: hidden;
+}
+#top ul{
+    list-style: none;
+    list-style-type: none
+}
+#izquierda{
+    float: left;
+    width: 65%;
+}
+.foto_portada{
+    width: 100%;
+}
+
+#derecha{
+    float: right;
+    width: 35%;
+    padding: 1% 5%;
+}
+.input_form_comentario {
+	background:#FFF;
+	border:1px solid #c8c8c8;
+	color:rgb(150,150,150);
+	height: 32px;
+	width: 100%;
+	padding-left: 15px; /* Si ponemos padding en top y bottom en algunos navegadores no se ven las letras (Opera y Firefox) */
+	font-size: 14px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	float: left;
+	margin: 6px;
+}
+#form_comentario #comentario{
+    height: 100px;
+    padding: 5px 15px;
+}
+a.politica{
+    margin: 15px;
+    color: green;
+    height: auto;
+}
+#izquierda #resenha{
+    overflow: hidden;
+}
+

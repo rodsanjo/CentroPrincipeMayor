@@ -1,0 +1,31 @@
+key|text
+title|RH Properties Principe
+Bienvenido|Welcome
+saludo1|Welcome to 3da2
+Seleccinar|Select
+leyenda_menu|Menu - Navigation bar
+saludo2|Welcome on the application following the MVC pattern.
+Saludo|Greeting
+Inicio|Home
+Juegos de mesa|Boardgames
+Juegos de tablero|Table games
+Juegos de cartas|Card games
+2 jugadores|2 players
+Accesorios|Accesories
+Galería|Galery
+Enlaces|Links
+Contacto|Contact
+Revista|Magazine
+Libros|Books
+h1#titulo|Jorge's international library, 
+h2#titulo|Application following the MVC pattern
+Diseñada por|Designed by
+Contacto|Contact
+Fecha última actualización|Last updated date
+Idioma|Language
+Alemán|German
+Español|Spanish
+Inglés|English
+Portugués|Portuguese
+Contactar|Contact
+parrafo1|Welcome to my library where you can find out some fascinating books. Some of them are highly recommended reading, although it depends on the tastes of every reader to achieve an interesting reading, getting immersion in each adventure.

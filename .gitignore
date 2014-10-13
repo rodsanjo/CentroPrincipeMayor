@@ -1,0 +1,27 @@
+# IDE and docs
+nbproject/private/
+nbproject
+docs
+
+home
+home/*
+
+cpm/index.php
+cpm/app/core/configuracion.php
+cpm/db_definition/*
+
+*/docs
+ficheros
+*/ficheros
+imagenes
+*/imagenes/*
+*/imagenes/inmuebles/
+
+
+# Bootstrap
+*/recursos/bootstrap*
+
+#framework
+home/app/core/*
+home/app/core/sgb
+home/app/core/configuracion.php

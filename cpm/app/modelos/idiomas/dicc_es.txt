@@ -1,0 +1,23 @@
+key|text
+title|Centro Príncipe Mayor
+Bienvenido|
+Lema|"El portal inmobiliario"
+saludo1|Bienvenido a ArteDetectives
+Seleccinar|
+leyenda_menu|Menú - Barra de navegación
+Saludo|
+Inicio|
+Galería|
+Enlaces|
+Contacto|
+Diseñada por|
+Fecha última actualización|
+Idioma|
+Alemán|
+Español|
+Inglés|
+Portugués|
+Contactar|
+parrafo1|
+h1#titulo|Biblioteca internacional del alumno
+h2#titulo|Página web generada con patrón MVC
