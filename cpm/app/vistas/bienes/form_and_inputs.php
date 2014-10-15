@@ -1,4 +1,3 @@
-
 <form method='post' name='<?php echo \core\Array_Datos::contenido("form_name", $datos); ?>' action="<?php echo \core\URL::generar($datos['controlador_clase'].'/validar_'.$datos['controlador_metodo']); ?>" enctype='multipart/form-data' onsubmit="return validarForm();">
     <fieldset><legend>Datos del inmueble</legend>
 	<?php echo \core\HTML_Tag::form_registrar($datos["form_name"], "post"); ?>
@@ -38,16 +37,16 @@
 	<?php echo \core\HTML_Tag::span_error('nombre_via', $datos); ?>
 	<br />
      
-        <label for="num_portal">Número de portal*:</label><input id='num_portal' name='num_portal' type='text' size='2'  maxlength='5' value='<?php echo \core\Array_Datos::values('num_portal', $datos); ?>' title="0 en caso de s/n, almacena el número de portal o el numero de plaza de garaje o el numero de local."/>
+        <label for="num_portal">Número de portal*:</label><input id='num_portal' name='num_portal' type='text' size='1'  maxlength='5' value='<?php echo \core\Array_Datos::values('num_portal', $datos); ?>' title="0 en caso de s/n, almacena el número de portal o el numero de plaza de garaje o el numero de local."/>
 	<?php echo \core\HTML_Tag::span_error('num_portal', $datos); ?>
         
-        Portal o bloque: <input id='portal_bloque' name='portal_bloque' type='text' size='10'  maxlength='10' value='<?php echo \core\Array_Datos::values('portal_bloque', $datos); ?>'/>
+        Portal o bloque: <input id='portal_bloque' name='portal_bloque' type='text' size='1'  maxlength='10' value='<?php echo \core\Array_Datos::values('portal_bloque', $datos); ?>'/>
 	<?php echo \core\HTML_Tag::span_error('portal_bloque', $datos); ?>
         
-        <label for="planta">Planta:</label><input id='planta' name='planta' type='text' size='5'  maxlength='3' value='<?php echo \core\Array_Datos::values('planta', $datos); ?>' title="planta de vivienda o planta de garaje. en locales tendrá un nulo."/>
+        <label for="planta">Planta:</label><input id='planta' name='planta' type='text' size='1'  maxlength='3' value='<?php echo \core\Array_Datos::values('planta', $datos); ?>' title="planta de vivienda o planta de garaje. en locales tendrá un nulo."/>
 	<?php echo \core\HTML_Tag::span_error('planta', $datos); ?>
         
-        <label for="puerta">Puerta:</label><input id='puerta' name='puerta' type='text' size='5'  maxlength='3' value='<?php echo \core\Array_Datos::values('puerta', $datos); ?>' />
+        <label for="puerta">Puerta:</label><input id='puerta' name='puerta' type='text' size='1'  maxlength='3' value='<?php echo \core\Array_Datos::values('puerta', $datos); ?>' />
 	<?php echo \core\HTML_Tag::span_error('puerta', $datos); ?>
 	<br />
         
@@ -65,17 +64,22 @@
 	<?php echo \core\HTML_Tag::span_error('pais', $datos); ?>
 	<br />
         
-        <label for="superficie">Superficie:</label><input id='superficie' name='superficie' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('superficie', $datos); ?>' />
+        <label for="sup_const">Superficie construida:</label><input id='sup_const' name='sup_const' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('sup_const', $datos); ?>' />
         m2
-	<?php echo \core\HTML_Tag::span_error('superficie', $datos); ?>
+	<?php echo \core\HTML_Tag::span_error('sup_const', $datos); ?>
 	<br />
         
-        Precio de venta: <input id='precio_venta' name='precio_venta' type='text' size='15'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_venta', $datos); ?>'/>
+        <label for="sup_util">Superficie útil:</label><input id='sup_util' name='sup_util' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('sup_util', $datos); ?>' />
+        m2
+	<?php echo \core\HTML_Tag::span_error('sup_util', $datos); ?>
+	<br />
+        
+        Precio de venta: <input id='precio_venta' name='precio_venta' type='text' size='8'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_venta', $datos); ?>'/>
         €
 	<?php echo \core\HTML_Tag::span_error('precio_venta', $datos); ?>
 	<br />
         
-        Precio de alquler: <input id='precio' name='precio_alquiler' type='text' size='15'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_alquiler', $datos); ?>'/>
+        Precio de alquler: <input id='precio_alquiler' name='precio_alquiler' type='text' size='3'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_alquiler', $datos); ?>'/>
         €/mes
 	<?php echo \core\HTML_Tag::span_error('precio_alquiler', $datos); ?>
 	<br />
@@ -95,11 +99,11 @@
         Coordenadas UTM del inmueble:
         <ul>
             <li>
-                X: <input id='coord_utm_x' name='coord_utm_x' type='text' size='10'  maxlength='10' value='<?php echo \core\Array_Datos::values('coor_lat', $datos); ?>'/>
+                X: <input id='coord_utm_x' name='coord_utm_x' type='text' size='12'  maxlength='15' value='<?php echo \core\Array_Datos::values('coord_utm_x', $datos); ?>'/>
                 <?php echo \core\HTML_Tag::span_error('coord_utm_x', $datos); ?>
             </li>
             <li>
-                Y: <input id='coord_utm_x' name='coord_utm_y' type='text' size='10'  maxlength='10' value='<?php echo \core\Array_Datos::values('coor_long', $datos); ?>'/>
+                 Y: <input id='coord_utm_x' name='coord_utm_y' type='text' size='12'  maxlength='15' value='<?php echo \core\Array_Datos::values('coord_utm_y', $datos); ?>'/>
                 <?php echo \core\HTML_Tag::span_error('coord_utm_y', $datos); ?>
             </li>
             <li>
@@ -113,8 +117,8 @@
                                 echo "<option value='$huso' >$huso</option>";
                             }
                         }
-                        if (isset($datos['values'][$huso])){
-                            echo "<option value='$huso' selected='selected'>".\core\Array_Datos::values('huso', $datos)."</option>";
+                        if (isset($datos['values']['huso'])){
+                            echo "<option value='{$datos['values']['huso']}' selected='selected'>".\core\Array_Datos::values('huso', $datos)."</option>";
                         }
                     ?>
                 </select>
@@ -122,9 +126,19 @@
             </li>
             <li>
                 Hemisferio:
-                <input id='hemis_norte' name='hemis' type='radio' value='n' checked="checked"/>Norte 
-                <input id='hemis_sur' name='hemis' type='radio' value='s'/>Sur
-                <?php echo \core\HTML_Tag::span_error('hemmis', $datos); ?>
+                <?php 
+                    if (isset($datos['values']['hemis']) == 's'){
+                        ?>
+                        <input id='hemis_norte' name='hemis' type='radio' value='n' />Norte 
+                        <input id='hemis_sur' name='hemis' type='radio' value='s' checked="checked"/>Sur
+                        <?php
+                    }else{
+                        ?>
+                        <input id='hemis_norte' name='hemis' type='radio' value='n' checked="checked"/>Norte 
+                        <input id='hemis_sur' name='hemis' type='radio' value='s'/>Sur
+                        <?php
+                    }
+                echo \core\HTML_Tag::span_error('hemmis', $datos); ?>
             </li>
         </ul>
         
@@ -155,12 +169,10 @@
 	<?php echo \core\HTML_Tag::span_error('errores_validacion', $datos); ?>
 	
 	<input type='submit' value='Enviar'/>
-        <input name="restablecer" type='reset' value='Restablecer'/>
+        <input type='reset' value='Restablecer'/>
         <button type='button' onclick='window.location.assign("<?php echo \core\URL::generar($datos['controlador_clase']); ?>");'>Cancelar</button>
     </fieldset>
 </form>
-
-<script type="text/javascript" src="<?php echo URL_ROOT ?>recursos/js/validaciones.js"></script>
 
 <script type="text/javascript">
     var ok = false;
@@ -180,9 +192,9 @@
     }
     function validarNombre_via(){
 	var valor = document.getElementById("nombre_via").value;
-	var patron=/[a-zñ]{5,}/i;
+	var patron=/[\wñ]{1,}/i;
 	if(!patron.test(valor)){
-            document.getElementById("error_nombre_via").innerHTML="Este campo debe contener al menos 5 caracteres.";
+            document.getElementById("error_nombre_via").innerHTML="Este campo debe contener al menos 1 carácter.";
             ok = false;
 	}else{
             document.getElementById("error_nombre_via").innerHTML="";

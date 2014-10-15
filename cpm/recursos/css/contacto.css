@@ -14,10 +14,58 @@ input, textarea{
     /*background: wheat;*/
 }
 .input_error{
-    color: yellow;
+    margin-left: 15px;
+    float: left;
 }
 #contacto p{
     float:none;
 }
+#form_contacto > *{
+    padding: 20px;
+}
+.input_form_contacto {
+	background:#FFF;
+	border:1px solid #c8c8c8;
+	color: rgb(60,60,60);
+	height: 22px;
+	width: 100%;
+	padding: 15px;
+	font-size: 14px;
+	border-radius: 10px;
+	-moz-border-radius: 10x;
+	-webkit-border-radius: 10px;
+	margin: 10px;
+        margin-left: 0px;
+}
+.grupo2{
+    clear: both;
+}
+.grupo2 > *{
+    width: 49%;
+    margin: auto;
+    margin-bottom: 1%;
+}
+input:first-child{
+    float: left;
+}
+input:last-child{
+    float: right;
+}
 
+#form_contacto #mensaje{
+    height: 50%;
+    padding: 5px 15px;
+}
+a.politica{
+    color: green;
+    float: right;
+}
+
+#formulario{
+    width: 60%;
+}
+.clear{
+    clear: both;
+    height: 15px;
+}
 

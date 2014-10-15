@@ -5,11 +5,11 @@
         include PATH_APPLICATION_APP."vistas/zonas/head.php";
     ?>   
 </head>
-<body>
+<body onload='onload();'>
     <div class="container">
         <div id="encabezado" class="teu separacion">		
             <?php 
-                include PATH_APPLICATION_APP."vistas/zonas/encabezado.php";
+                //include PATH_APPLICATION_APP."vistas/zonas/encabezado.php";
             ?>
         </div>
         <div id="menu_up">
@@ -48,11 +48,32 @@
             
     </div>
     
+    
+    <?php echo \core\HTML_Tag::post_request_form(); ?>
+		
+		
+    <script type="text/javascript" />
+            var alerta;
+            function onload() {
+                    visualizar_alerta();
+            }
+
+            function visualizar_alerta() {
+                    if (alerta != undefined) {
+                            $("body").css("opacity","0.3").css("filter", "alpha(opacity=30)");
+                            alert(alerta);
+                            alerta = undefined;
+                            $("body").css("opacity","1.0").css("filter", "alpha(opacity=100)");
+                    }
+            }
+
+    </script>
+    
 <?php
 if (isset($_SESSION["alerta"])) {
     echo <<<heredoc
 <script type="text/javascript" />
-    alert("{$_SESSION["alerta"]}");
+    //alert("{$_SESSION["alerta"]}");
     var alerta = '{$_SESSION["alerta"]}';
 </script>
 heredoc;
@@ -70,7 +91,7 @@ heredoc;
 	
 <div id='globals'>
     <?php
-  //      var_dump($datos);
+        var_dump($datos);
         print "<pre>"; 
 //          print_r($GLOBALS);
           print("\$_GET "); print_r($_GET);

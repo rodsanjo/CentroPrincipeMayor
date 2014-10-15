@@ -1,6 +1,13 @@
 <div id="inmuebles">
-    <div id="busqueda_mini">
-        <?php include "form_buscar_mini.php"; ?>
+    <div id="colum_izq">
+        <div id="busqueda_mini">
+            <?php include "form_buscar_mini.php"; ?>
+            <div class="acciones">
+            <?php
+                echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_insertar"), "insertar un nuevo inmueble", array("title" => "insertar un nuevo inmueble"));
+            ?>
+            </div>
+        </div>
     </div>
     <div id="resultado_busqueda">
         <?php
@@ -49,9 +56,10 @@
                             {$v['precio_alquiler']}
                         </div>
                     </a>
-                    ";
-                echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"));
-                echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_borrar", $fila['id']), "borrar inmueble", array("title" => "borrar inmueble"));
+                    "
+                            ;
+                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"));
+                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_borrar", $fila['id']), "Borrar inmueble", array("title" => "Borrar inmueble"));
             }
             echo "</div>";
         }

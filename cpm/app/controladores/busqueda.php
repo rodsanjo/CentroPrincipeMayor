@@ -13,8 +13,8 @@ class busqueda extends \core\Controlador{
     
     public function inmuebles(array $datos = array()){
         
-        //Realizamos la busqueda        
-        $post = \core\HTTP_Requerimiento::post();        
+        //Realizamos la busqueda
+        $post = \core\HTTP_Requerimiento::post();
         $datos['bienes'] = $this->buscarInmuebles($post);
         //$datos['bienes'] = self::buscarInmuebles($post);
 

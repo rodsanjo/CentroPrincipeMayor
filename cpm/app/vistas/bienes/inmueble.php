@@ -114,8 +114,8 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
             </div>
             <br/><br/>
             <?php
-                echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"))."<br/><br/>";
-                echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_borrar", $fila['id']), "borrar inmueble", array("title" => "borrar inmueble"));
+                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"))."<br/><br/>";
+                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_borrar", $fila['id']), "borrar inmueble", array("title" => "borrar inmueble"));
             ?>
         </div>
     </div>

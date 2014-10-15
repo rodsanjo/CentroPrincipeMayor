@@ -7,7 +7,7 @@
     
     <div id="acciones">
         <?php
-        //echo \core\HTML_Tag::a_boton_onclick("boton", array("articulos", "form_insertar"), "Insertar un nuevo artículo");
+        //echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_insertar"), "Insertar un inmueble");
         echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_insertar"), "insertar un nuevo inmueble", array("title" => "insertar un nuevo inmueble"));
         ?>
     </div>

@@ -123,6 +123,17 @@ a:hover{
     padding-right: 0px;
     padding-left: 0px;
 }
+
+.boton {
+    margin: 5px 5px;
+    padding: 2px;
+    line-height: 170%;
+    background-color: lightgray;
+    border: 1px solid black;
+    text-decoration: none;       
+    cursor:pointer;
+}
+
 .boton1{
     background: rgb(174,205,145);
     border-radius: 20px;
@@ -132,9 +143,9 @@ a:hover{
 }
 .botonAdmin{
     margin: 5px 5px;
-    padding: 10px;
-    line-height: 200%;
-    background-color: green;
+    padding: 2px;
+    line-height: 170%;
+    background-color: lightgray;
     color: black;
     border: 2px solid brown;
     text-decoration: none;
@@ -142,7 +153,7 @@ a:hover{
     cursor:pointer;
 }
 .navbar-default .navbar-brand{
-    color: black;
+    color: white;
 }
 
 

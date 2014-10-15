@@ -13,7 +13,7 @@
             $metodo = \core\Configuracion::$metodo_por_defecto;
             $href = core\URL::generar($controlador.'/'.$metodo);
             echo "
-                <a class='navbar-brand' href='$href'>CentroPríncipeMayor</a>
+                <a class='navbar-brand' href='$href'>Centro Príncipe Mayor</a>
                 ";
         ?>
     </div>

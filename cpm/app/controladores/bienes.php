@@ -38,6 +38,8 @@ class bienes extends \core\Controlador {
             //Usando articulo_id como FK buscamos los detalles del inmueble
             $bien_id = $filas[0]['id'];
             $clausulas['where'] = " bien_id like '%$bien_id%' ";
+            /*
+            //Para cuando existan detalles de algunos bienes
             if( $filas[0]['tipo'] == 'v'){
                 $filas = \modelos\Modelo_SQL::table(self::$tabla_dv)->select($clausulas);
                 $datos["detalles"] = $filas[0];
@@ -45,12 +47,13 @@ class bienes extends \core\Controlador {
                 $filas = \modelos\Modelo_SQL::table(self::$tabla_dg)->select($clausulas);
                 $datos["detalles"] = $filas[0];
             }
+            */
         }
         
         //var_dump($datos);
 
         //Mostramos los datos a modificar en formato europeo. Convertimos el formato de MySQL a europeo para su visualización
-        self::convertir_formato_mysql_a_ususario($datos['bien']);
+        self::convertir_formato_mysql_a_ususario($datos['bien'], false);
         if ( isset($datos['detalles']) ){
             self::convertir_formato_mysql_a_ususario($datos['detalles']);
         }
@@ -80,7 +83,7 @@ class bienes extends \core\Controlador {
     }
     
     /**
-     * Valida los datos insertados por el usuario. Si estos son correctos mostrará la lista de articulos con 
+     * Valida los datos insertados por el usuario. Si estos son correctos mostrará la lista de bienes con 
      * la nueva inserción, sino mostrará los errores por los que nos se admitió los datos introducidos.
      * @param array $datos
      */
@@ -149,7 +152,7 @@ class bienes extends \core\Controlador {
 
         $datos["form_name"] = __FUNCTION__;
 
-        //self::request_come_by_post();   //Si viene por POST sigue adelante
+        self::request_come_by_post();   //Si viene por POST sigue adelante
         
         if ( ! isset($datos["errores"])) { // Si no es un reenvío desde una validación fallida
             $validaciones=array(
@@ -186,15 +189,15 @@ class bienes extends \core\Controlador {
     }
 
     /**
-     * Valida los datos insertados por el usuario al realizar una modificación. Si estos son correctos mostrará la lista de articulos con 
+     * Valida los datos insertados por el usuario al realizar una modificación. Si estos son correctos mostrará la lista de bienes con 
      * la nueva inserción, sino mostrará los errores por los que nos se admitió los datos introducidos.
      * @param array $datos
      */
     public function validar_form_modificar(array $datos=array()) {
         
-        //self::request_come_by_post();
+        self::request_come_by_post();
 
-        $validaciones = \modelos\articulos::$validaciones_update;
+        $validaciones = \modelos\bienes::$validaciones_update;
 
         if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)){  //validaciones en PHP
             $datos["errores"]["errores_validacion"]="Corrija los errores, por favor.";
@@ -204,7 +207,7 @@ class bienes extends \core\Controlador {
                 //Convertimos a formato MySQL
                 self::convertir_a_formato_mysql($datos['values']);
                 //if ( ! $validacion = \modelos\Modelo_SQL::insert($datos["values"], self::$tabla)) // Devuelve true o false
-                if ( ! $validacion = \modelos\Datos_SQL::table("articulos")->update($datos["values"])) // Devuelve true o false
+                if ( ! $validacion = \modelos\Datos_SQL::table(self::$tabla)->update($datos["values"])) // Devuelve true o false
                     $datos["errores"]["errores_validacion"]="No se han podido grabar los datos en la bd.";
                 else {
                     self::mover_files($datos);
@@ -220,7 +223,7 @@ class bienes extends \core\Controlador {
                 \core\Distribuidor::cargar_controlador(self::$controlador, 'index', $datos);		
         }
  */       
-        
+
         if ( ! $validacion) //Devolvemos el formulario para que lo intente corregir de nuevo
                 $this->cargar_controlador(self::$controlador, 'form_modificar',$datos);
         else 		{
@@ -238,9 +241,9 @@ class bienes extends \core\Controlador {
         
         $datos["form_name"] = __FUNCTION__;
 
-        //self::request_come_by_post();
+        self::request_come_by_post();
 
-        $validaciones= \modelos\articulos::$validaciones_delete;
+        $validaciones= \modelos\bienes::$validaciones_delete;
         
         if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
             $datos['mensaje'] = 'Datos erróneos para identificar el artículo a borrar';
@@ -297,6 +300,19 @@ class bienes extends \core\Controlador {
 
     }
     
+    /**
+     * Si el requerimiento viene por GET nos mostrará un mensaje indicando que en esa sección
+     * no está permitida la entrada de datos de forma manual, y cargará el controlador mensajes.
+     * Si viene por POST, no devuelve nada, simplemente deja continuar la ejecución.
+     * @author Jorge Rodríguez <jergo23@gmail.com>
+     */
+    private static function request_come_by_post(){
+        If ( \core\HTTP_Requerimiento::method()!= 'POST'){
+            $datos['mensaje']="No se permiten añadir datos en la URL manualmanete para realizar la operación";
+            \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
+        }
+    }
+    
 
     /**
      * Comprueba que los ficheros que el usuario intenta subir a la aplicación cumple con los requerimietnos exigidos.
@@ -330,9 +346,8 @@ class bienes extends \core\Controlador {
     private static function mover_files(array $datos){
         //var_dump($datos);
         $id = $datos["values"]['id'];
-        $ref = $datos["values"]['referencia'];
         if ($_FILES["foto"]["size"]) {
-            if ($datos["values"]["foto"] = self::mover_foto($id, $ref)) {
+            if ($datos["values"]["foto"] = self::mover_foto($id)) {
                 $validacion = \modelos\Modelo_SQL::tabla(self::$tabla)->update($datos["values"]);
             }
         }
@@ -400,21 +415,21 @@ class bienes extends \core\Controlador {
         $fila = \core\Modelo_SQL::execute($sql);
         
         $foto = $fila[0]['foto'];
-        $manual = $fila[0]['manual'];
+        //$plano = $fila[0]['plano'];
         
         self::borrar_foto($foto);
-        self::borrar_manual($manual);
+        //self::borrar_manual($plano);
         
     }
 
     /**
-     * Elimina una foto de la ruta recursos/imagenes/articulos
+     * Elimina una foto de la ruta recursos/imagenes/bienes
      * @param string $foto
      * @return null
      */
     private static function borrar_foto($foto) {
         
-            $foto_path = PATH_APPLICATION."recursos".DS."imagenes".DS."articulos".DS.$foto;
+            $foto_path = PATH_APPLICATION."recursos".DS."imagenes".DS."bienes".DS.$foto;
             // Si existe el fichero lo borramos
             if (is_file($foto_path)) {
                     return unlink($foto_path);
@@ -432,12 +447,12 @@ class bienes extends \core\Controlador {
      * @param array $param Se corresponderá por regla general con datos['values'] y lo pasamos por referencia, para que modifique el valor
      */
     private static function convertir_a_formato_mysql(array &$param) {  //$param = datos['values'] y lo pasamos por referencia, para que modifique el valor        
-        $param['precio_venta'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['precio_venta']);
-        $param['precio_alquiler'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['precio_alquiler']);
+        $param['precio_venta'] = \core\Conversiones::decimal_coma_a_punto($param['precio_venta']);
+        $param['precio_alquiler'] = \core\Conversiones::decimal_coma_a_punto($param['precio_alquiler']);
         //$param['coord_lat'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_lat']);
         //$param['coord_long'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_long']);
-        $param['coord_utm_x'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_utm_x']);
-        $param['coord_utm_y'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_utm_y']);
+        $param['coord_utm_x'] = \core\Conversiones::decimal_coma_a_punto($param['coord_utm_x']);
+        $param['coord_utm_y'] = \core\Conversiones::decimal_coma_a_punto($param['coord_utm_y']);
         $param['sup_const'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['sup_const']);
         $param['sup_util'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['sup_util']);
     }    
@@ -448,9 +463,9 @@ class bienes extends \core\Controlador {
      * @author Jorge Rodriguez Sanz <jergo23@gmail.com>
      * @param array $param Se corresponderá por regla general con datos['values'] y lo pasamos por referencia, para que modificque el valor
      */
-    private static function convertir_formato_mysql_a_ususario(array &$param) {  //$param = datos['values'] o $param = datos['filas'] si enviamos toda la tabla, y lo pasamos por referencia, para que modifique el valor
+    private static function convertir_formato_mysql_a_ususario(array &$param, $coords = true) {  //$param = datos['values'] o $param = datos['filas'] si enviamos toda la tabla, y lo pasamos por referencia, para que modifique el valor
         
-        //var_dump($param);
+        var_dump($param);
         if(!isset($param['id'])){   //Si existe $param['id'], es que vienen varias filas 0,1,2...,n, es decir no viene de intentar modificar o borrar ua única fila
             foreach ($param as $key => $fila) {
                 if(isset($fila['precio_venta']))
@@ -474,13 +489,17 @@ class bienes extends \core\Controlador {
             }
         }else{
             if(isset($param['precio_venta']))
-                $param['precio_venta']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['precio_venta']);
+                $param['precio_venta']=  \core\Conversiones::poner_punto_separador_miles($param['precio_venta']);
             if(isset($param['precio_alquiler']))
-                $param['precio_alquiler']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['precio_alquiler']);
-            if(isset($param['coord_utm_x']))
-                    $param['coord_utm_x']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_x']);
-            if(isset($param['coord_utm_y']))
-                $param['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_y']);
+                $param['precio_alquiler']=  \core\Conversiones::poner_punto_separador_miles($param['precio_alquiler']);
+            if($coords){
+                if(isset($param['coord_utm_x']))
+                    var_dump ($param['coord_utm_x']);
+                    $param['coord_utm_x']=  \core\Conversiones::poner_punto_separador_miles($param['coord_utm_x']);
+                    var_dump ($param['coord_utm_x']);
+                if(isset($param['coord_utm_y']))
+                    $param['coord_utm_y']=  \core\Conversiones::poner_punto_separador_miles($param['coord_utm_y']);
+            }            
             if(isset($param['sup_util']))
                 $param['sup_util']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['sup_util']);
             if(isset($param['sup_const']))

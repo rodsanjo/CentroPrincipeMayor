@@ -5,33 +5,43 @@
     <p>
         Si quiere ponerse en contacto con nosotros para cualquier consulta, puede hacerlo a través de nuestro correo electrónico: <a href="mailto:email@email.com">email@email.com</a> o bien mediante el siguiente formulario y le contestaremos lo antes posible.
     </p>
-    <form onsubmit="return validarForm();" name="formulario" action="<?php echo \core\URL::generar("contacto/enviar_mail"); ?>" method="post" enctype="multipart/form-data">
+    
+    <div id="formulario">
+    <form onsubmit="return validarForm();" name="formulario" action="<?php echo \core\URL::generar("contacto/enviar_mail"); ?>" method="post" enctype="multipart/form-data" id="form_contacto">
         <fieldset>
         <legend>Formulario de contacto</legend>
-            <label for="nombre">Nombre:</label>
-            <input id="nombre" onblur="validarNombre();" type="text" name= "nombre" value="<?php echo \core\Array_Datos::values('nombre', $datos); ?>" size="20" maxlength="30"/>
+        
+            <div class="grupo2">
+                <input id="nombre" onblur="validarNombre();" type="text" name= "nombre" value="<?php echo \core\Array_Datos::values('nombre', $datos); ?>" size="20" maxlength="30" class="input_form_contacto" placeholder="Nombre"/>
+                <input id="asunto" type="text" name="asunto" value="<?php echo \core\Array_Datos::values('asunto', $datos); ?>" class="input_form_contacto" placeholder="Asunto"/>
+            </div>
             <?php echo \core\HTML_Tag::span_error('nombre', $datos); ?>
-            <br/>
-
-            <label for="email">Dirección de correo electrónico:</label>
-            <input id="email" type="text" name="email" value="<?php echo \core\Array_Datos::values('email', $datos); ?>"/>
-            <?php echo \core\HTML_Tag::span_error('email', $datos); ?>
-            <br/>
-
-            <label for="asunto">Asunto:</label>
-            <input id="asunto" type="text" name="asunto" value="<?php echo \core\Array_Datos::values('asunto', $datos); ?>"/>
             <?php echo \core\HTML_Tag::span_error('asunto', $datos); ?>
-            <br/>
+        
+            <div class="grupo2">
+                <input id="email" type="text" name="email" value="<?php echo \core\Array_Datos::values('email', $datos); ?>" class="input_form_contacto" placeholder="Email"/>
+                <input id="phone" type="text" name="phone" value="<?php echo \core\Array_Datos::values('phone', $datos); ?>" class="input_form_contacto" maxlength="15" placeholder="Teléfono"/>
+            </div>
+            <?php echo \core\HTML_Tag::span_error('emailPhone', $datos); ?>
+            
 
-            <label for="mensaje">Mensaje:</label><br/>
-            <textarea id="mensaje" name="mensaje"  rows="5"><?php echo \core\Array_Datos::values('mensaje', $datos); ?></textarea>
+            <textarea id="mensaje" name="mensaje"  rows="5" class="input_form_contacto" value="Comentarios" onFocus="if(this.value=='Mensaje')this.value='';" onblur="if(this.value=='')this.value='Mensaje';"><?php echo \core\Array_Datos::values('mensaje', $datos); ?></textarea>
             <?php echo \core\HTML_Tag::span_error('mensaje', $datos); ?>
             <br/>
+            
+            <?php echo \core\HTML_Tag::span_error('validacion', $datos); ?>
+            <br/>            
+            <input type="hidden" name="web" id="web"  value="http://centroprincipemayor.es/" />
 
-            <small><p>*Atención: Todos los campos son obligatorios.</p></small>
+            <input type="submit" class="boton1" name="enviar" value="Enviar" />
+            
+            <div class="clear"></div>
+            
+            <input type="checkbox" name="recibirCopia"/>Deseo recibir una copia del mensaje
+            
+            <a class="politica" href="<?php echo core\URL::generar('mensajes/avisoLegal'); ?>" title="Política de Privacidad" target="_onblank">Pol&iacute;tica de Privacidad</a>
 
-            <input type="checkbox" name="recibirCopia"/><small>Deseo recibir una copia del mensaje</small><br/>
-            <input type="submit" name="enviar" value="Enviar" />
         </fieldset>
     </form>
+    </div>
 </div>
