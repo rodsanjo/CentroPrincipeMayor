@@ -12,11 +12,11 @@ class Menus{    //la clase se tiene que llamar igual que el archivo
         */
         /*Colocamos el menú en sentido inverso dado que hemos usado en el CSS float: right*/
         "Inicio" => "inicio,index,Inicio"
-        ,"Buscar" => array(
+        /*,"Buscar" => array(
             "Pisos" => "busqueda,pisos,Pisos"
             ,"Garajes" => "busqueda,garajes,Garajes"
             ,"Locales" => "busqueda,locales,Locales"
-            )
+            )*/
         ,"Otros estudios" => array(
             "Certificación Energética" => "estudios,certificacionEnergetica,Certificación Energética"
             ,"IEE" => "estudios,iee,IEE"

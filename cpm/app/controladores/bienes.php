@@ -24,8 +24,11 @@ class bienes extends \core\Controlador {
     
     public function inmueble(array $datos = array()) {
         
+        $clausulas['where'] = '';   //Por si alguien maneja la URL sin introducir referencia, mostrará el primero
         if(isset($_GET['p3'])){ //viene la referencia
             $clausulas['where'] = " referencia like '%{$_GET['p3']}%' ";
+        }elseif(isset($_POST['referencia'])){ //viene la referencia tras hacer un comentario
+            $clausulas['where'] = " referencia like '%{$_POST['referencia']}%' ";
         }
         
         if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, self::$tabla)) {
@@ -51,7 +54,8 @@ class bienes extends \core\Controlador {
         }
         
         //var_dump($datos);
-
+        
+        $datos['precio_venta'] = $datos['bien']['precio_venta'];    //Me lo guardo antes de la conversión para poder hacer calculos
         //Mostramos los datos a modificar en formato europeo. Convertimos el formato de MySQL a europeo para su visualización
         self::convertir_formato_mysql_a_ususario($datos['bien'], false);
         if ( isset($datos['detalles']) ){
@@ -465,7 +469,7 @@ class bienes extends \core\Controlador {
      */
     private static function convertir_formato_mysql_a_ususario(array &$param, $coords = true) {  //$param = datos['values'] o $param = datos['filas'] si enviamos toda la tabla, y lo pasamos por referencia, para que modifique el valor
         
-        var_dump($param);
+        //var_dump($param);
         if(!isset($param['id'])){   //Si existe $param['id'], es que vienen varias filas 0,1,2...,n, es decir no viene de intentar modificar o borrar ua única fila
             foreach ($param as $key => $fila) {
                 if(isset($fila['precio_venta']))

@@ -7,7 +7,10 @@
 </head>
 <body onload='onload();'>
     <div class="container">
-        <div id="encabezado" class="teu separacion">		
+        <div id="encabezado" class="teu separacion">
+            <div id="sendero_migas_pan">
+                <?php echo \controladores\sendero::ver(); ?>
+            </div>
             <?php 
                 //include PATH_APPLICATION_APP."vistas/zonas/encabezado.php";
             ?>
@@ -91,11 +94,11 @@ heredoc;
 	
 <div id='globals'>
     <?php
-        var_dump($datos);
+//        var_dump($datos);
         print "<pre>"; 
 //          print_r($GLOBALS);
-          print("\$_GET "); print_r($_GET);
-          print("\$_POST ");print_r($_POST);
+//          print("\$_GET "); print_r($_GET);
+//          print("\$_POST ");print_r($_POST);
 //          print("\$_COOKIE ");print_r($_COOKIE);
 //          print("\$_REQUEST ");print_r($_REQUEST);
 //          print("\$_SESSION ");print_r($_SESSION);

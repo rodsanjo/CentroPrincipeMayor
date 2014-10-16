@@ -108,6 +108,10 @@ a:hover{
     width: 65%;
 }
 
+#sendero_migas_pan a:last-child{
+    text-decoration: none;
+    color: green;
+}
 
 /* Modificaciones Bootstrap*/
 .form-control {
@@ -145,7 +149,7 @@ a:hover{
     margin: 5px 5px;
     padding: 2px;
     line-height: 170%;
-    background-color: lightgray;
+    background-color: wheat;
     color: black;
     border: 2px solid brown;
     text-decoration: none;
@@ -155,6 +159,8 @@ a:hover{
 .navbar-default .navbar-brand{
     color: white;
 }
+
+
 
 
 /*

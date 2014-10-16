@@ -20,12 +20,13 @@
             echo "<p>$num_inmuebles inmuebles encontrados.</p>
                 ";
             ?>
-            <form method='post' action='<?php echo \core\URL::generar("busqueda/inmueblesssssssss"); ?>' class="form_derecha">
+            <form method='post' action='<?php echo \core\URL::generar("busqueda/inmuebles"); ?>' class="form_derecha">
                 <select id='ordenar_por' name="ordenar_por" onchange="ordenar_por(this.value);" >
                     <option value='precio_venta' >Precio ascendente</option>
                     <option value='precio_venta desc' >Precio descendente</option>
                     <option value='id desc' selected='selected'>Recientes</option>
-                </select>  
+                </select>
+                <input type="hidden" name="datos" value='<?php echo serialize($datos) ?>'/>
                 <input type="submit" value="Ordenar" title="Ordenar por" />
             </form>
             <?php
@@ -58,8 +59,8 @@
                     </a>
                     "
                             ;
-                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"));
-                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_borrar", $fila['id']), "Borrar inmueble", array("title" => "Borrar inmueble"));
+                echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"));
+                echo \core\HTML_Tag::a_boton("botonAdmin", array("bienes", "form_borrar", $fila['id']), "Borrar inmueble", array("title" => "Borrar inmueble"));
             }
             echo "</div>";
         }

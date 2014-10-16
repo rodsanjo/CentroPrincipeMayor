@@ -80,7 +80,7 @@ class bienes extends \core\sgbd\bd {
      * @param array $fila
      * @return array $v
      */
-    public static function formatoVistaBusquedaInmuebles( array &$fila ) {
+    public static function formatoVistaBusquedaInmuebles( array $fila ) {
         
         //Tipo de operación y precios
         $v['tipo_operacion'] = '';
@@ -137,7 +137,7 @@ class bienes extends \core\sgbd\bd {
      * @param array $fila
      * @return array $v
      */
-    public static function formatoVistaBienesInmueble( array &$fila ) {
+    public static function formatoVistaBienesInmueble( array $fila ) {
         
         //var_dump($fila);
         //Tipo de operación y precios
@@ -189,12 +189,12 @@ class bienes extends \core\sgbd\bd {
         $v['direccion'] = $tipo_via.$fila['nombre_via'].', '.$num_portal.' ('.$zona.')';  
         
         //Si en la BD las coordenadas son geodésicas
-        $v['lat'] = isset($fila['coord_lat']) && !is_null($fila['coord_lat']) ? $fila['coord_lat'] : 40.64734769451827;
-        $v['lon'] = isset($fila['coord_long']) && !is_null($fila['coord_long']) ? $fila['coord_long'] : -4.67889608147584;
+        $v['lat'] = isset($fila['coord_lat']) && !is_null($fila['coord_lat']) ? $fila['coord_lat'] : 0;
+        $v['lon'] = isset($fila['coord_long']) && !is_null($fila['coord_long']) ? $fila['coord_long'] : 0;
         
         //Si en la BD las coordenadas son UTM
-        $v['utm_x'] = isset($fila['coord_utm_x']) && !is_null($fila['coord_utm_x']) ? $fila['coord_utm_x'] : 443732.4071036273;
-        $v['utm_y'] = isset($fila['coord_utm_y']) && !is_null($fila['coord_utm_y']) ? $fila['coord_utm_y'] : 4471166.909313631;
+        $v['utm_x'] = isset($fila['coord_utm_x']) && !is_null($fila['coord_utm_x']) ? $fila['coord_utm_x'] : 0;
+        $v['utm_y'] = isset($fila['coord_utm_y']) && !is_null($fila['coord_utm_y']) ? $fila['coord_utm_y'] : 0;
         $v['huso'] = isset($fila['huso']) && !is_null($fila['huso']) ? $fila['huso'] : 30;
         $v['hemis'] = isset($fila['hemis']) && !is_null($fila['hemis']) ? $fila['hemis'] : 'n';
         

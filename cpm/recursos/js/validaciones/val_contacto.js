@@ -102,36 +102,3 @@ function validarForm(){
 
 	return ok;
 }
-
-$(document).ready(function() {
-    $('#form_comentario').submit(function() {
-        var error="";
-        if ( $('#nombre').val()=='' ){ error=error+'- Nombre\r\n'; }
-        if ( $('#phone').val()=='' ) { error=error+'- Teléfono\r\n'; }
-        if ( $('#email').val()=='' )  { error=error+'- Correo Electrónico\r\n'; }
-        if ( $('#comentario').val()=='') { error=error+'- Comentario\r\n'; }
-        if (error!="") {
-            error="Debes rellenar los siguientes campos\r\n"+"__________________________________________\r\n\r\n"+error;
-            alert(error);
-        } else {
-            $.ajax({
-            	type: 'POST',
-            	url: 'index.php?module=contact&action=send',
-            	data: $('#form_comentario').serialize(),
-            	success:function(msj){	
-            		//alert(msj);
-            		if ( msj == 1 ){
-            			alert("Se ha enviado la información al anunciante");	
-            		}else{
-            			alert("No se ha podido enviar la información al anunciante");
-            		}
-            	},
-            	error:function(){
-            		alert("Error interno. Inténtelo de nuevo más tarde.");
-            	}
-            });
-        }	
-        return false;  
-    });
-    initialize();
-});

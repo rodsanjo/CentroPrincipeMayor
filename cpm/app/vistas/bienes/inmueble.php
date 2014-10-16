@@ -83,8 +83,8 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                 <br/><?php echo !is_null($fila['sup_util']) ? round($fila['sup_util'], 0) : 'Consultar'; ?> m<sup>2</sup>
                 <br/>
                 <?php 
-                    if( $v['precio_venta'] !=0 && $fila['sup_util'] !=0 ){
-                        echo round($v['precio_venta']/$fila['sup_util'], 0).' €/m&sup2;';
+                    if( $datos['precio_venta'] !=0 && $fila['sup_util'] !=0 ){
+                        echo round($datos['precio_venta']/$fila['sup_util'], 1).' €/m&sup2;';
                     }
                 ?>
             </p>

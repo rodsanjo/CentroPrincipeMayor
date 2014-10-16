@@ -21,13 +21,6 @@
         echo "Usuario: ";
         echo "<b>".\core\Usuario::$login."</b><br/>";
         echo " <a class='btn btn-success' href='".\core\URL::generar("usuarios/desconectar")."'>Log out</a>";
-    ?>
-        <br/><br/>
-        <form method="post" action="<?php echo \core\URL::generar("usuarios/modificar_datos"); ?>">
-            <input type="hidden" name="login" value="<?php echo \core\Usuario::$login ?>"/>
-            <input type="submit" value="Modificar datos"/>
-        </form>
-    <?php
-        }
+    }
     ?>
 </div>

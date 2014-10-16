@@ -29,7 +29,7 @@
 
         <input type='text' id='referencia' name='referencia' placeholder="Referencia" title='Introduzca la referencia dle inmueble'/>
         </br>
-
+<!--
         <select id="" name="precio">
             <option value="" selected="selected" >Precio</option>
             <?php
@@ -46,7 +46,7 @@
         </select>
 
         <select id="num_hab" name="num_hab">
-        </select>
+        </select>-->
 
         <input class="boton1" type='submit' value='Buscar' title='Buscar'/>
     </form>
