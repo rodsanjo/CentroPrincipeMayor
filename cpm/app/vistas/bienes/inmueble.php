@@ -61,7 +61,7 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
             <div id="mapa">
                 <div id="mapholder">
                 </div>
-                <button onclick="utm_a_LatLon(); getLocation();">Mostrar mapa</button>
+                <button id="botonMostrarMapa" onmousemove="utm_a_LatLon();" onclick="getLocation();">Mostrar mapa</button>
                 <form name="frmConverter">
                     <div id="coord_utm">
                         <input  type="hidden" id="utm_x" name="utm_x" value="<?php echo $v['utm_x']; ?>"/>
@@ -78,6 +78,9 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
         </div>
         
         <div id="derecha">
+            <p style="font-size:140%;">
+                <b>Ref.:</b> <span style="color:green;"><?php echo $fila['referencia']; ?></span>
+            </p>
             <p>
                 <b>Datos básicos:</b>
                 <br/><?php echo !is_null($fila['sup_util']) ? round($fila['sup_util'], 0) : 'Consultar'; ?> m<sup>2</sup>
@@ -88,12 +91,12 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                     }
                 ?>
             </p>
-            <?php
-            if ( isset($datos['detalles']) ){
-                ?>
-                <p>
+            <br/>
+            <p>
                 <b>Características:</b>
-                <?php if($fila['tipo'] == 'v'){ ?>
+                    <br/>Planta: <?php echo $fila['planta']!= '' ? ($fila['planta']!= 0 ? $fila['planta'].'º' : 'baja') : '-';
+                    if ( isset($datos['detalles']) ){
+                        if($fila['tipo'] == 'v'){ ?>
                         <br/>Nº habitaciones: <?php echo $datos['detalles']['num_hab']; ?> 
                         <br/>Nº baños: <?php echo $datos['detalles']['num_banhos']; ?>
                         <br/>Año de construcción: <?php echo $datos['detalles']['anho_const']; ?>

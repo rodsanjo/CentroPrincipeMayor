@@ -3,7 +3,7 @@
 
 <div id="buscar">
     <h3 class="titulo_seccion">Buscador de inmuebles</h3>
-    <form onsubmit="return validarForm();" name="formulario" class="form_buscar" method='post' action='<?php echo \core\URL::generar("busqueda/inmuebles"); ?>'>
+    <form onsubmit="return validarForm();" name="formulario" class="form_buscar" method='post' action='<?php echo \core\URL::generar("bienes/busqueda"); ?>'>
         <label>Tipo de inmueble:</label>
         <select name="tipo_inmueble" onchange="insertarDestinos(this.name, this.value, 'num_hab');">
             <option value="" selected="selected">Cualquiera</option>

@@ -10,25 +10,138 @@ class bienes extends \core\Controlador {
     
     private static $controlador = 'bienes';
     
-    /**
-     * Aún no existe esta vista
-     * Presenta todas las acciones disponibles sobre los bienes: insertar, modificar, borrar...
-     * @param array $datos
-     */
-    public function index(array $datos = array()) {
 
-        \core\HTTP_Respuesta::set_header_line("location", \core\URL::generar());
-        \core\HTTP_Respuesta::enviar();
+    
+    public function index(array $datos = array() ){
+        $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+        $http_body = \core\Vista_Plantilla::generar('plantilla_principal',$datos);
+        \core\HTTP_Respuesta::enviar($http_body);
+    }
+    
+    public function busqueda(array $datos = array()){
+        
+        //Realizamos la busqueda
+        $post = \core\HTTP_Requerimiento::post();
+        //var_dump($post);
+        
+        if( isset($post['datos'])){
+            $datos = unserialize($post['datos']);
+            //var_dump($datos);
+            if( isset($post['ordenar_por']) ){
+                if( $post['ordenar_por'] === 'id desc' ){
+                    arsort($datos['bienes']);   //No usamos krsort() pues por POST nos viene la ordenacion aleatoria en que se mostraron inicialmente
+                }elseif( $post['ordenar_por'] === 'precio_venta' ){
+                    self::ordenarArray($datos['bienes'], 'precio_venta', true);
+                }elseif( $post['ordenar_por'] === 'precio_venta desc' ){
+                    self::ordenarArray($datos['bienes'], 'precio_venta', false);
+                }
+            }
+        }else{
+            $datos['bienes'] = $this->buscarInmuebles($post);
+            //$datos['bienes'] = self::buscarInmuebles($post);
+        }
+
+        $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
+        $http_body = \core\Vista_Plantilla::generar('DEFAULT',$datos);
+        \core\HTTP_Respuesta::enviar($http_body);
         
     }
     
+    private static function buscarInmuebles(array $post = array()){
+        //var_dump($post);
+        //Clausulas para la busqueda:
+        if( isset($post['referencia']) && $post['referencia'] != '' ){
+            $clausulas['where'] = " referencia like '%{$post['referencia']}%'";
+        }else{
+            $clausulas['where'] = " 1 ";    //Siempre es true
+            if( isset( $post['tipo_inmueble'] ) && $post['tipo_inmueble'] != '' ){
+                $clausulas['where'] .= " and tipo like '{$post['tipo_inmueble']}'";
+            }
+            if( isset( $post['buscar_nombre'] ) ){
+                $clausulas['where'] .= " and ( localidad like '%{$post['buscar_nombre']}%' or provincia like '%{$post['buscar_nombre']}%' or cp = '{$post['buscar_nombre']}' )";
+            }        
+            
+            //Si precio_venta es igual a cero quiere decir que esta para alquilar y viceversa. Si amboa son cero saldrá en ambas consultas.
+            if( isset($post['tipo_transacion']) && $post['tipo_transacion'] != '' ){
+                if( $post['tipo_transacion'] === 'venta'){
+                    $clausulas['where'] .= " and (precio_alquiler = 0 or precio_venta > 0)";
+                    if( isset($post['precio_max']) && $post['precio_max'] != '' ){
+                       $clausulas['where'] .= " and precio_venta <= '{$post['precio_max']}'";
+                    }
+                }elseif ( $post['tipo_transacion'] === 'alquiler'){
+                     $clausulas['where'] .= " and (precio_venta = 0 or precio_alquiler > 0)";
+                     if( isset($post['precio_max']) && $post['precio_max'] != '' ){
+                         $clausulas['where'] .= " and precio_alquiler <= '{$post['precio_max']}'";
+                     }
+                 }
+                 
+            }elseif( isset($post['precio_max']) && $post['precio_max'] != '' ){
+                $clausulas['where'] .= " and (  precio_venta <= '{$post['precio_max']}' ";
+                $clausulas['where'] .= " or ( precio_alquiler <= '{$post['precio_max']}' and precio_alquiler <> 0 ) ) ";
+                
+            }
+            $clausulas['order_by']= ' rand()';
+        }
+        
+        
+        $datos["bienes"] = \modelos\Modelo_SQL::table(self::$tabla)->select($clausulas); // Recupera todas las filas ordenadas
+        //$datos["bienes"] = \modelos\Modelo_SQL::execute($sql);
+        //var_dump($datos);
+        
+        //¡¡OJO!! no hacemos la conversión y habrá que hacerla luego en la vista mediante el modelo
+        
+        return $datos['bienes'];
+    }
+    
+    
+    /**
+    * Mediante este método, y utilizando el método de la burbuja, ordenamos el array de bienes
+    *  respecto al campo enviado de forma ascendente o descendente en función del tercer parámetro.
+    * @param $bienes array
+    * @param $campo tipo String
+    * @param $asc boolean Si es true ordenaremos de forma ascendente, descendentemente en caso de false
+    */
+    private static function ordenarArray(array &$bienes, $campo, $asc = true ){
+       $aux = array();
+       $n = count($bienes);
+       //var_dump($bienes);
+       
+        if($asc){
+            for($k=0; $k<$n-1; $k++){
+                for( $i=0; $i< $n-1-$k; $i++){
+                    if( $bienes[$i][$campo] > $bienes[$i+1][$campo] ){
+                        $aux = $bienes[$i];
+                        $bienes[$i] = $bienes[$i+1];
+                        $bienes[$i+1] = $aux;
+                    }
+                }
+            }
+       }else{
+            for($k=0; $k<$n-1; $k++){
+                for( $i=0; $i< $n-1-$k; $i++){
+                    if( $bienes[$i][$campo] < $bienes[$i+1][$campo] ){
+                        $aux = $bienes[$i];
+                        $bienes[$i] = $bienes[$i+1];
+                        $bienes[$i+1] = $aux;
+                    }
+                }
+            }
+       }
+   }
+    
+    /**
+     * Función que muestra un único inmueble con todos sus detalles pasando una referencia.
+     * @param array $datos
+     * @return type
+     */
     public function inmueble(array $datos = array()) {
         
-        $clausulas['where'] = '';   //Por si alguien maneja la URL sin introducir referencia, mostrará el primero
-        if(isset($_GET['p3'])){ //viene la referencia
+        if(isset($_REQUEST['p3'])){ //viene la referencia
             $clausulas['where'] = " referencia like '%{$_GET['p3']}%' ";
-        }elseif(isset($_POST['referencia'])){ //viene la referencia tras hacer un comentario
+        }elseif(isset($_REQUEST['referencia'])){ //viene la referencia tras hacer un comentario
             $clausulas['where'] = " referencia like '%{$_POST['referencia']}%' ";
+        }else{
+            $clausulas['where'] = '';   //Por si alguien maneja la URL sin introducir referencia, mostrará el primero
         }
         
         if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, self::$tabla)) {
@@ -66,11 +179,6 @@ class bienes extends \core\Controlador {
         $http_body = \core\Vista_Plantilla::generar('DEFAULT', $datos);
         \core\HTTP_Respuesta::enviar($http_body);
         
-        
-        
-        \core\HTTP_Respuesta::set_header_line("location", \core\URL::generar());
-        \core\HTTP_Respuesta::enviar();
-        
     }
     
     /**
@@ -102,6 +210,9 @@ class bienes extends \core\Controlador {
             if ($validacion) {
                 //Convertimos a formato MySQL
                 self::convertir_a_formato_mysql($datos['values']);
+                
+                $datos['values']['referencia'] = self::ponerRef($datos['values']['provincia']);
+                
                 //if ( ! $validacion = \modelos\Modelo_SQL::insert($datos["values"], self::$tabla)) // Devuelve true o false
                 if ( ! $validacion = \modelos\Datos_SQL::table(self::$tabla)->insert($datos["values"])) // Devuelve true o false
                     $datos["errores"]["errores_validacion"]="No se han podido grabar los datos en la bd.";
@@ -188,7 +299,7 @@ class bienes extends \core\Controlador {
         self::convertir_formato_mysql_a_ususario($datos['values']);
                 
         $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
-        $http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos);
+        $http_body = \core\Vista_Plantilla::generar('DEFAULT', $datos);
         \core\HTTP_Respuesta::enviar($http_body);
     }
 
@@ -270,7 +381,7 @@ class bienes extends \core\Controlador {
         self::convertir_formato_mysql_a_ususario($datos['values']);
 
         $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
-        $http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos);
+        $http_body = \core\Vista_Plantilla::generar('DEFAULT', $datos);
         \core\HTTP_Respuesta::enviar($http_body);
     }
 
@@ -476,12 +587,12 @@ class bienes extends \core\Controlador {
                     $param[$key]['precio_venta']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['precio_venta']);
                 if(isset($param[$key]['precio_alquiler']))
                     $param[$key]['precio_alquiler']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['precio_alquiler']);
-                /*
-                if(isset($param[$key]['coord_utm_x']))
-                    $param[$key]['coord_utm_x']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['coord_utm_x']);
-                if(isset($param[$key]['coord_utm_y']))
-                    $param[$key]['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['coord_utm_y']);
-                */
+                if($coords){
+                    if(isset($param[$key]['coord_utm_x']))
+                        $param[$key]['coord_utm_x']=  \core\Conversiones::poner_punto_separador_miles($fila['coord_utm_x']);
+                    if(isset($param[$key]['coord_utm_y']))
+                        $param[$key]['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['coord_utm_y']);
+                }
                 if(isset($param[$key]['sup_util']))
                     $param[$key]['sup_util']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['sup_util']);
                 if(isset($param[$key]['sup_const']))
@@ -499,10 +610,10 @@ class bienes extends \core\Controlador {
             if($coords){
                 if(isset($param['coord_utm_x']))
                     var_dump ($param['coord_utm_x']);
-                    $param['coord_utm_x']=  \core\Conversiones::poner_punto_separador_miles($param['coord_utm_x']);
+                    $param['coord_utm_x']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_x']);
                     var_dump ($param['coord_utm_x']);
                 if(isset($param['coord_utm_y']))
-                    $param['coord_utm_y']=  \core\Conversiones::poner_punto_separador_miles($param['coord_utm_y']);
+                    $param['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_y']);
             }            
             if(isset($param['sup_util']))
                 $param['sup_util']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['sup_util']);
@@ -515,6 +626,32 @@ class bienes extends \core\Controlador {
         }
         
     }
-	
+    
+    /**
+     * Función para simular el trigger que pone la referencia a un bien
+     * @param type $provincia
+     * @return string
+     */
+    private static function ponerRef( $provincia ){
+        
+        $pref_provincia = 'M';
+        
+        if( $provincia == 'Madrid' )
+            $pref_provincia = 'M';
+        elseif ( $provincia == 'Segovia' )
+            $pref_provincia = 'SG';
+        elseif ( $provincia == 'Avila' )
+            $pref_provincia = 'AV';
+        elseif ( $provincia == 'Toledo' )
+            $pref_provincia = 'TO';
+        elseif ( $provincia == 'Cuenca' )
+            $pref_provincia = 'CU';
+        elseif ( $provincia == 'Guadalajara' )
+            $pref_provincia = 'GU';
+        else
+            $pref_provincia = 'ES';
+        
+        return $pref_provincia.strtoupper( base_convert( uniqid(), 10, 30) ).'-CPM'; //referencia 
+    }
 	
 } // Fin de la clase

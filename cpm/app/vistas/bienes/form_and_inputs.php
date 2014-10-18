@@ -13,7 +13,6 @@
             <option value = 'p' >Parcela</option>
             <option value = 'n' >Nave</option>
         </select>
-        <br/>
         
         Tipo de vía:
         <select id='tipo_via_id' name="tipo_via_id">
@@ -43,45 +42,53 @@
         Portal o bloque: <input id='portal_bloque' name='portal_bloque' type='text' size='1'  maxlength='10' value='<?php echo \core\Array_Datos::values('portal_bloque', $datos); ?>'/>
 	<?php echo \core\HTML_Tag::span_error('portal_bloque', $datos); ?>
         
-        <label for="planta">Planta:</label><input id='planta' name='planta' type='text' size='1'  maxlength='3' value='<?php echo \core\Array_Datos::values('planta', $datos); ?>' title="planta de vivienda o planta de garaje. en locales tendrá un nulo."/>
+        Planta:<input id='planta' name='planta' type='text' size='1'  maxlength='3' value='<?php echo \core\Array_Datos::values('planta', $datos); ?>' title="planta de vivienda o planta de garaje. en locales tendrá un nulo."/>
 	<?php echo \core\HTML_Tag::span_error('planta', $datos); ?>
         
-        <label for="puerta">Puerta:</label><input id='puerta' name='puerta' type='text' size='1'  maxlength='3' value='<?php echo \core\Array_Datos::values('puerta', $datos); ?>' />
+        Puerta:<input id='puerta' name='puerta' type='text' size='1'  maxlength='3' value='<?php echo \core\Array_Datos::values('puerta', $datos); ?>' />
 	<?php echo \core\HTML_Tag::span_error('puerta', $datos); ?>
 	<br />
         
-        <label for="cp">Código postal:</label><input id='cp' name='cp' type='text' size='5'  maxlength='5' value='<?php echo \core\Array_Datos::values('cp', $datos); ?>' />
+        Código postal:<input id='cp' name='cp' type='text' size='5'  maxlength='5' value='<?php echo \core\Array_Datos::values('cp', $datos); ?>' />
 	<?php echo \core\HTML_Tag::span_error('cp', $datos); ?>
-	<br />
  
-        <label for="localidad">Localidad:</label><input id='localidad' name='localidad' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('localidad', $datos); ?>' />
+        Localidad:<input id='localidad' name='localidad' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('localidad', $datos); ?>' />
 	<?php echo \core\HTML_Tag::span_error('localidad', $datos); ?>
         
-        <label for="provincia">Provincia:</label><input id='provincia' name='provincia' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('provincia', $datos); ?>' />
+        Provincia:<input id='provincia' name='provincia' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('provincia', $datos); ?>' />
 	<?php echo \core\HTML_Tag::span_error('provincia', $datos); ?>
         
-        <label for="pais">País:</label><input id='pais' name='pais' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('pais', $datos); ?>' />
+        País:<input id='pais' name='pais' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('pais', $datos); ?>' />
 	<?php echo \core\HTML_Tag::span_error('pais', $datos); ?>
 	<br />
         
-        <label for="sup_const">Superficie construida:</label><input id='sup_const' name='sup_const' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('sup_const', $datos); ?>' />
-        m2
-	<?php echo \core\HTML_Tag::span_error('sup_const', $datos); ?>
-	<br />
-        
-        <label for="sup_util">Superficie útil:</label><input id='sup_util' name='sup_util' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('sup_util', $datos); ?>' />
-        m2
-	<?php echo \core\HTML_Tag::span_error('sup_util', $datos); ?>
-	<br />
-        
-        Precio de venta: <input id='precio_venta' name='precio_venta' type='text' size='8'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_venta', $datos); ?>'/>
-        €
-	<?php echo \core\HTML_Tag::span_error('precio_venta', $datos); ?>
-	<br />
-        
-        Precio de alquler: <input id='precio_alquiler' name='precio_alquiler' type='text' size='3'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_alquiler', $datos); ?>'/>
-        €/mes
-	<?php echo \core\HTML_Tag::span_error('precio_alquiler', $datos); ?>
+        <table class="colum2">
+            <tr>
+                <td>
+                    Superficie construida:<input id='sup_const' name='sup_const' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('sup_const', $datos); ?>' />
+                    m<sup>2</sup>
+                    <?php echo \core\HTML_Tag::span_error('sup_const', $datos); ?>
+                </td>
+                <td>
+                    Superficie útil:<input id='sup_util' name='sup_util' type='text' size='5'  maxlength='50' value='<?php echo \core\Array_Datos::values('sup_util', $datos); ?>' />
+                    m<sup>2</sup>
+                    <?php echo \core\HTML_Tag::span_error('sup_util', $datos); ?>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Precio de venta: <input id='precio_venta' name='precio_venta' type='text' size='8'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_venta', $datos); ?>'/>
+                    €
+                    <?php echo \core\HTML_Tag::span_error('precio_venta', $datos); ?>
+                </td>
+                <td>
+                    Precio de alquler: <input id='precio_alquiler' name='precio_alquiler' type='text' size='3'  maxlength='12' value='<?php echo \core\Array_Datos::values('precio_alquiler', $datos); ?>'/>
+                    €/mes
+                    <?php echo \core\HTML_Tag::span_error('precio_alquiler', $datos); ?>
+                </td>
+            </tr>
+        </table>
 	<br />
         
 <!--        Coordenadas geodésicas del inmueble:
@@ -127,7 +134,7 @@
             <li>
                 Hemisferio:
                 <?php 
-                    if (isset($datos['values']['hemis']) == 's'){
+                    if ( isset($datos['values']['hemis']) && $datos['values']['hemis'] == 's'){
                         ?>
                         <input id='hemis_norte' name='hemis' type='radio' value='n' />Norte 
                         <input id='hemis_sur' name='hemis' type='radio' value='s' checked="checked"/>Sur

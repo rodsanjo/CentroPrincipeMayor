@@ -74,7 +74,7 @@ class bienes extends \core\sgbd\bd {
     );
     
     /**
-     * Para la vista busqueda/inmuebles
+     * Para la vista bienes/busqueda
      * Función que devuelve los parametros que le pasemos adaptados al formato que desemaos en la vista
      * 
      * @param array $fila

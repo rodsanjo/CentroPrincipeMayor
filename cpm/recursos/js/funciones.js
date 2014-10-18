@@ -6,3 +6,10 @@ function abrirImagen(nombre_foto){
     ventana2.window.moveTo(400,100);
     ventana2.window.focus();
 }
+
+$(document).ready(function() {
+    $('#botonMostrarMapa').click(function() {
+        $('#mapholder').css('border','solid')
+        $('#mapholder').css('border-color','green')
+    });
+});
