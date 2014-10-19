@@ -6,6 +6,8 @@
         Si quiere ponerse en contacto con nosotros para cualquier consulta, puede hacerlo a través de nuestro correo electrónico: <a href="mailto:email@email.com">email@email.com</a> o bien mediante el siguiente formulario y le contestaremos lo antes posible.
     </p>
     
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12150.016687481395!2d-3.6994406!3d40.4198337!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422886ee826823%3A0xd0132da1fe2fc4b3!2sCalle+Gran+V%C3%ADa%2C+16%2C+28013+Madrid!5e0!3m2!1ses!2ses!4v1413722057397" width="600" height="450" frameborder="0" style="border:0"></iframe>
+    
     <div id="formulario">
     <form onsubmit="return validarForm();" name="formulario" action="<?php echo \core\URL::generar("contacto/enviar_mail"); ?>" method="post" enctype="multipart/form-data" id="form_contacto">
         <fieldset>
@@ -44,4 +46,5 @@
         </fieldset>
     </form>
     </div>
+    
 </div>

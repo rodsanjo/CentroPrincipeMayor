@@ -1,6 +1,6 @@
 
 *{
-    /*border:solid yellow; */
+    /*border:solid red; */
     font-family: arial, verdana, sans-serif, Times New Roman, Georgia;
 }
 
@@ -78,6 +78,7 @@ a:hover{
 #piej{
     font-size:11px;
     width:100%;
+    padding: 0% 2%;
     background: rgb(174,205,145);
     overflow: hidden;
 }
@@ -100,7 +101,7 @@ a:hover{
 
 #conexion{
     float: right;
-    padding-right: 10%; 
+    padding-right: 2%; 
 }
 
 .form_derecha{

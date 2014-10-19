@@ -68,4 +68,9 @@ a.politica{
     clear: both;
     height: 15px;
 }
+iframe{
+    width: 40%;
+    float: right;
+    height: 370px;
+}
 

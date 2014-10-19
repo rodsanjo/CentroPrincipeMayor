@@ -19,13 +19,14 @@
 <meta name="revisit-after" content="1 days" />
 <meta name="robots" content="INDEX,FOLLOW" />
 
-<link rel="stylesheet" type="text/css" href="<?php echo URL_HOME_ROOT ?>recursos/bootstrap-3.2.0/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo URL_HOME_ROOT ?>recursos/bootstrap-3.2.0/css/bootstrap-theme.css" />
+<?php 
+    include PATH_HOME."app/vistas/zonas/head_bootstrap.php";
+?>
+
 <link rel="stylesheet" type="text/css" href="<?php echo URL_HOME_ROOT ?>recursos/css/main.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>recursos/css/main.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT.'recursos/css/'.\core\Distribuidor::get_controlador_instanciado(); ?>.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>recursos/css/print.css" media="print"/> 
-<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>recursos/css/zonas/menu_up.css" />
 
 <!--[if lte IE 7]>
     <link rel="stylesheet" href="<?php echo URL_HOME_ROOT ?>recursos/css/ie7.css" />
@@ -36,6 +37,6 @@
 
 <script type="text/javascript" src=""></script>
 <script type="text/javascript" src="<?php echo URL_HOME_ROOT ?>recursos/js/jquery/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="<?php echo URL_HOME_ROOT ?>recursos/bootstrap-3.2.0/js/bootstrap.js"></script>
+
 <script type="text/javascript" src="<?php echo URL_HOME_ROOT ?>recursos/js/funciones.js"></script>
 <script type="text/javascript" src="<?php echo URL_ROOT ?>recursos/js/funciones.js"></script>

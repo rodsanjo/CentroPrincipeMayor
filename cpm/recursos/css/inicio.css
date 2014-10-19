@@ -35,8 +35,7 @@ input,select {
     text-align: center;
 }
 #busqueda #buscar{
-    width: 40%;
-    float: left;
+    padding: 3% 7%;
 }
 .botonBuscar{
     width: 94%;
@@ -64,4 +63,28 @@ input,select {
 #acciones{
     clear: both;
     text-align: center;
+}
+
+#colum_izq{
+    float: left;
+    width: 40%;
+}
+#colum_der{
+    float: right;
+    width: 60%;
+    padding: 2%;
+}
+
+/*Adaptacion Bootstrap */
+.carousel-inner{
+    height: 350px;
+}
+.carousel-inner img{
+    margin: auto;
+}
+.carousel-indicators .active{
+    background-color: green;
+}
+.carousel-indicators li{
+    border: 1px solid green;
 }
