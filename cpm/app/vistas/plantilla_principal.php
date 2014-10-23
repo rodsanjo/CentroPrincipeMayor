@@ -7,7 +7,7 @@
 </head>
 <body onload='onload();'>
     <div class="container">
-        <div id="encabezado" class="teu separacion">
+        <div id="encabezado" class="teu">
             <div id="sendero_migas_pan">
                 <?php echo \controladores\sendero::ver(); ?>
             </div>
@@ -95,15 +95,15 @@ heredoc;
 <div id='globals'>
     <?php
 //        var_dump($datos);
-        print "<pre>"; 
-//          print_r($GLOBALS);
+//        print "<pre>"; 
+////          print_r($GLOBALS);
 //          print("\$_GET "); print_r($_GET);
 //          print("\$_POST ");print_r($_POST);
-//          print("\$_COOKIE ");print_r($_COOKIE);
-//          print("\$_REQUEST ");print_r($_REQUEST);
-//          print("\$_SESSION ");print_r($_SESSION);
-//          print("\$_SERVER ");print_r($_SERVER);
-        print "</pre>";
+////          print("\$_COOKIE ");print_r($_COOKIE);
+////          print("\$_REQUEST ");print_r($_REQUEST);
+////          print("\$_SESSION ");print_r($_SESSION);
+////          print("\$_SERVER ");print_r($_SERVER);
+//        print "</pre>";
 //            print("xdebug_get_code_coverage() ");
 //            var_dump(xdebug_get_code_coverage());
     ?>

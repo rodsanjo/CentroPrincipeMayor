@@ -18,12 +18,6 @@ root {
     border-radius: 25px;
     padding: 10px 3%;
 }
-input,select {
-    height: 35px;
-    border-radius: 10px;
-    padding-left: 10px;
-    margin: 7px;
-}
 
 .botonBuscar{
     background: rgb(174,205,145);
@@ -63,6 +57,7 @@ input,select {
 #acciones{
     clear: both;
     text-align: center;
+    margin: 5%;
 }
 
 #colum_izq{

@@ -6,12 +6,20 @@
 	
         Tipo de inmueble:
         <select id='tipo' name="tipo">
-            <option value = 'v' selected='selected'>Vivienda</option>
-            <option value = 'g' >Garaje</option>
-            <option value = 'l' >Local</option>
-            <option value = 't' >Trastero</option>
-            <option value = 'p' >Parcela</option>
-            <option value = 'n' >Nave</option>
+            <?php
+                $sql = 'select * from cpm_tipos_bien';
+                $datos['tipos_bien'] = \core\sgbd\mysqli::execute($sql);
+                if (\core\Distribuidor::get_metodo_invocado() == "form_insertar") {
+                    echo "<option value='v' selected='selected'>Vivienda</option>";
+                }
+                foreach ($datos['tipos_bien'] as $key => $tipo_bien) {
+                    if( ! is_null($tipo_bien['id_letra']) ){
+                        $value = "value = '{$tipo_bien['id_letra']}'";
+                        $selected = (\core\datos::values('tipo', $datos) == $tipo_bien['id_letra']) ? " selected='selected' " : "";
+                        echo "<option $value $selected>{$tipo_bien['tipo']}</option>\n";
+                    }
+                }
+            ?>
         </select>
         
         Tipo de vía:
@@ -29,7 +37,7 @@
                 }
             ?>
         </select>
-        <?php echo \core\HTML_Tag::span_error('categoria_id', $datos); ?>
+        <?php echo \core\HTML_Tag::span_error('tipo_via_id', $datos); ?>
         <br/>
         
         <label for="nombre_via">Nombre de la vía*:</label><input id='nombre_via' name='nombre_via' type='text' size='100'  maxlength='100' value='<?php echo \core\Array_Datos::values('nombre_via', $datos); ?>'/>
@@ -91,19 +99,19 @@
         </table>
 	<br />
         
-<!--        Coordenadas geodésicas del inmueble:
+        Coordenadas geodésicas del inmueble:
         <ul>
             <li>
-                Latitud: <input id='coord_lat' name='coord_lat' type='text' size='10'  maxlength='20' value='<?php echo \core\Array_Datos::values('coor_lat', $datos); ?>'/>
-                <?php echo \core\HTML_Tag::span_error('coor_lat', $datos); ?>
+                Latitud: <input id='coord_lat' name='coord_lat' type='text' size='10'  maxlength='20' value='<?php echo \core\Array_Datos::values('coord_lat', $datos); ?>'/>
+                <?php echo \core\HTML_Tag::span_error('coord_lat', $datos); ?>
             </li>
             <li>
-                Longitud: <input id='coord_long' name='coord_long' type='text' size='10'  maxlength='20' value='<?php echo \core\Array_Datos::values('coor_long', $datos); ?>'/>
-                <?php echo \core\HTML_Tag::span_error('coor_long', $datos); ?>
+                Longitud: <input id='coord_long' name='coord_long' type='text' size='10'  maxlength='20' value='<?php echo \core\Array_Datos::values('coord_long', $datos); ?>'/>
+                <?php echo \core\HTML_Tag::span_error('coord_long', $datos); ?>
             </li>
-        </ul>-->
+        </ul>
 
-        Coordenadas UTM del inmueble:
+<!--        Coordenadas UTM del inmueble:
         <ul>
             <li>
                 X: <input id='coord_utm_x' name='coord_utm_x' type='text' size='12'  maxlength='15' value='<?php echo \core\Array_Datos::values('coord_utm_x', $datos); ?>'/>
@@ -147,10 +155,10 @@
                     }
                 echo \core\HTML_Tag::span_error('hemmis', $datos); ?>
             </li>
-        </ul>
+        </ul>-->
         
         <?php
-            $check = isset($datos['values']['foto']) ? "<img src='".URL_ROOT."recursos/imagenes/check.jpg' width='15px'/>" : "<img src='".URL_ROOT."recursos/imagenes/no_check.jpg' width='15px'/>";
+            $check = isset($datos['values']['foto']) ? "<img src='".URL_ROOT."recursos/imagenes/check.jpg' width='40px'/>" : "<img src='".URL_ROOT."recursos/imagenes/no_check.jpg' width='40px'/>";
             echo $check;
         ?>
         
@@ -164,20 +172,16 @@
         -->
 
         Reseña:<br/>
-        <textarea id="resenha" name="resenha" maxlength='300' cols="50" rows="3"><?php echo \core\Array_Datos::values('resenha', $datos); ?></textarea>
+        <textarea id="resenha" name="resenha" maxlength='300' cols="120" rows="3"><?php echo \core\Array_Datos::values('resenha', $datos); ?></textarea>
         <br/>
-<!--        
-        Descripción:<br/>
-        <textarea id="descripcion" name="descripcion" maxlength='1000' cols="80" rows="8"><?php echo \core\Array_Datos::values('descripcion', $datos); ?></textarea>
-        <br/>
-        -->
+
         *Campos obligatorios<br />
         
 	<?php echo \core\HTML_Tag::span_error('errores_validacion', $datos); ?>
 	
-	<input type='submit' value='Enviar'/>
-        <input type='reset' value='Restablecer'/>
-        <button type='button' onclick='window.location.assign("<?php echo \core\URL::generar($datos['controlador_clase']); ?>");'>Cancelar</button>
+	<input type='submit' value='Enviar' class="btn-default botonAdmin"/>
+        <input type='reset' value='Restablecer' class="btn-default botonAdmin"/>
+        <button type='button' onclick='window.location.assign("<?php echo $datos['url_cancelar']; ?>");' class="btn-default botonAdmin">Cancelar</button>
     </fieldset>
 </form>
 

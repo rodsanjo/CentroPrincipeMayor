@@ -11,6 +11,7 @@
             <option value="l">Local</option>
             <option value="t">Trastero</option>
             <option value="p">Parcela</option>
+            <option value="n">Nave</option>
         </select>
 
         <label>Tipo operación:</label>

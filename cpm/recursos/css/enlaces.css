@@ -11,6 +11,7 @@
    border-radius: 10px;
    background: rgba(60,60,60,0.2);
    padding: 10px;
+
 }
 
 #enlaces dt{
@@ -19,7 +20,11 @@
    background: rgb(240,240,255);
    padding-left: 5px; 
    overflow: visible;
+
 }
 #enlaces dd{
    padding-top: 5px;
+}
+#enlaces center{
+   margin: 5px;
 }

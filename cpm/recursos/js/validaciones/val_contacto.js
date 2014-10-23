@@ -2,7 +2,7 @@ var ok = false;
 function validarNombre(){
 	var valor = document.getElementById("nombre").value;
 	var patron=/[\w]{3,}/i;
-	if(!patron.test(valor)){
+	if(valor == 'Nombre' || !patron.test(valor)){
                 document.getElementById("error_nombre").innerHTML="El nombre debe contener al menos 3 caracteres.";
 		//document.getElementById("nombre").value="";
 		ok = false;
@@ -31,7 +31,7 @@ function validarPhone(){
         //alert(valor);
 	var patron= /^[+]{0,1}([\d]{0,2})([\d]{9,})$/i;
 	if(!patron.test(valor)){
-		//document.getElementById("error_phone").innerHTML="Debe escribir el número sin espacios en blanco con al menos 9 números";
+		//document.getElementById("error_phone").innerHTML="Debe escribir el número sin espacios en blanco con al menos 9 dígitos";
 		ok = false;
 	}else{
 		//document.getElementById("error_phone").innerHTML="";ç
@@ -56,7 +56,7 @@ function validarEmailPhone(){
             document.getElementById("error_emailPhone").innerHTML="El email es incorrecto. Formato cuenta@servidor.net";
             ok = false;
         }else if( !phone){
-            document.getElementById("error_emailPhone").innerHTML="El teléfono debe contener un número sin espacios en blanco con al menos 9 números";
+            document.getElementById("error_emailPhone").innerHTML="El teléfono debe contener un número sin espacios en blanco con al menos 9 dígitos";
             ok = false;
         }
 }
@@ -65,7 +65,7 @@ function validarAsunto(){
 	var valor = document.getElementById("asunto").value;
         //alert(valor);
 	var patron= /([\w]{1,})/i;
-	if(!patron.test(valor)){
+	if(valor == 'Asunto' || !patron.test(valor)){
 		document.getElementById("error_asunto").innerHTML="El asunto bebe contener al menos un caracter válido.";
 		ok = false;
 	}else{
@@ -76,7 +76,7 @@ function validarMensaje(){
 	var valor = document.getElementById("mensaje").value;
         //alert(valor);
 	var patron= /([\w]{4,})/i;
-	if(!patron.test(valor)){
+	if(valor == 'Mensaje' || !patron.test(valor)){
 		document.getElementById("error_mensaje").innerHTML="La longitud del mensaje es insuficiente";
 		ok = false;
 	}else{

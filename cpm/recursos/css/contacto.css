@@ -27,9 +27,7 @@ input, textarea{
 	background:#FFF;
 	border:1px solid #c8c8c8;
 	color: rgb(60,60,60);
-	height: 22px;
 	width: 100%;
-	padding: 15px;
 	font-size: 14px;
 	border-radius: 10px;
 	-moz-border-radius: 10x;
@@ -50,6 +48,10 @@ input:first-child{
 }
 input:last-child{
     float: right;
+}
+input[type='checkbox']{
+    margin: 5px;
+    height: 15px;
 }
 
 #form_contacto #mensaje{

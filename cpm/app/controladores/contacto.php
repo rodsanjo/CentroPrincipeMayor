@@ -75,7 +75,7 @@ class contacto extends \core\Controlador {
             if ( $envio_email = mail($to, $subject, $message, $additional_headers))  {
                 $datos["mensaje"] = "<p style='float:none'>Su mensaje ha sido enviado con el siguiente texto:</p>$message";
                 if(\core\Array_Datos::contenido("recibirCopia", $_REQUEST) == true){    //Enviamos una copia del mensaje al usuario
-                    mail($responder_a, $subject, $message."<br/><p style='color:red'>Mensaje enviado desde <a href='http://www.centroprincipemayor.es'>www.centroprincipemayor.es</a></p>", $additional_headers);
+                    mail($responder_a, $subject, $message."<br/><p style='color:red'>Mensaje enviado desde <a href='http://www.centroprincipemayor.esy.es'>www.centroprincipemayor.esy.es</a></p>", $additional_headers);
                 }
             }
             else {

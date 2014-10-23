@@ -27,7 +27,7 @@
                     <option value='id desc' selected='selected'>Recientes</option>
                 </select>
                 <input type="hidden" name="datos" value='<?php echo serialize($datos) ?>'/>
-                <input type="submit" value="Ordenar" title="Ordenar por" />
+                <input type="submit" value="Ordenar" title="Ordenar por" class="btn-default"/>
             </form>
             <?php
             echo"

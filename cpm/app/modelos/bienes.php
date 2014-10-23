@@ -5,45 +5,16 @@ namespace modelos;
 class bienes extends \core\sgbd\bd {
     
     private static $tabla = 'bienes';
-    private static $tabla2 = 'tipos_via';
-    private static $tabla3 = 'detalles_vivienda';
-    private static $tabla4 = 'detalles_garaje';
+    private static $tabla_tv = 'tipos_via';
+    private static $tabla_tb = 'tipos_bien';
+    private static $tabla_dv = 'detalles_vivienda';
+    private static $tabla_dg = 'detalles_garaje';
     
     /* Rescritura de propiedades de validación */
     public static $validaciones_insert = array(
         "tipo" => "errores_texto"
         , "tipo_via_id" => "errores_numero_entero_positivo && errores_referencia:tipo_via_id/tipos_via/id"
-        , "nombre_via" => "errores_requerido && errores_texto && errores_unicidad_insertar:id,nombre_via/bienes/id,nombre_via"
-        //, "referencia" =>""
-        , "num_portal" =>"errores_requerido && errores_numero_entero_positivo"
-        , "portal_bloque" => "errores_texto"
-        , "planta" => "errores_numero_entero"
-        , "puerta" => "errores_texto"
-        , "cp" => "errores_numero_entero_positivo"                 
-        , "localidad" => "errores_texto"
-        , "provincia" => "errores_texto"
-        , "pais" => "errores_texto"
-        , "sup_const" => "errores_decimal"
-        , "sup_util" => "errores_decimal"
-        , "precio_venta" => "errores_precio_entero"
-        , "precio_alquiler" => "errores_precio_entero"
-        , "resenha" => "errores_texto"
-        /*
-        , "coord_lat" => "errores_decimal"
-        , "coord_long" => "errores_decimal"
-         */
-        , "coord_utm_x" => "errores_numero_con_coma_decimal"
-        , "coord_utm_y" => "errores_numero_con_coma_decimal"
-        , "huso" => "errores_numero_entero_positivo"
-        , "hemis" => "errores_texto"
-    );
-
-
-    public static $validaciones_update = array(
-        "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/bienes/id"
-        , "tipo" => "errores_texto"
-        , "tipo_via_id" => "errores_numero_entero_positivo && errores_referencia:tipo_via_id/tipos_via/id"
-        , "nombre_via" => "errores_requerido && errores_texto && errores_unicidad_modificar:id,nombre_via/bienes/id,nombre_via"
+        , "nombre_via" => "errores_requerido && errores_texto"
         //, "referencia" =>""
         , "num_portal" =>"errores_numero_entero_positivo"
         , "portal_bloque" => "errores_texto"
@@ -58,14 +29,46 @@ class bienes extends \core\sgbd\bd {
         , "precio_venta" => "errores_precio_entero"
         , "precio_alquiler" => "errores_precio_entero"
         , "resenha" => "errores_texto"
-        /*
+        
         , "coord_lat" => "errores_decimal"
         , "coord_long" => "errores_decimal"
-         */
+         /*
         , "coord_utm_x" => "errores_numero_con_coma_decimal"
         , "coord_utm_y" => "errores_numero_con_coma_decimal"
         , "huso" => "errores_numero_entero_positivo"
         , "hemis" => "errores_texto"
+         */
+    );
+
+
+    public static $validaciones_update = array(
+        "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/bienes/id"
+        , "tipo" => "errores_texto"
+        , "tipo_via_id" => "errores_numero_entero_positivo && errores_referencia:tipo_via_id/tipos_via/id"
+        , "nombre_via" => "errores_requerido && errores_texto"
+        //, "referencia" =>""
+        , "num_portal" =>"errores_numero_entero_positivo"
+        , "portal_bloque" => "errores_texto"
+        , "planta" => "errores_numero_entero"
+        , "puerta" => "errores_texto"
+        , "cp" => "errores_numero_entero_positivo"                 
+        , "localidad" => "errores_texto"
+        , "provincia" => "errores_texto"
+        , "pais" => "errores_texto"
+        , "sup_const" => "errores_decimal"
+        , "sup_util" => "errores_decimal"
+        , "precio_venta" => "errores_precio_entero"
+        , "precio_alquiler" => "errores_precio_entero"
+        , "resenha" => "errores_texto"
+        
+        , "coord_lat" => "errores_decimal"
+        , "coord_long" => "errores_decimal"
+        /*
+        , "coord_utm_x" => "errores_numero_con_coma_decimal"
+        , "coord_utm_y" => "errores_numero_con_coma_decimal"
+        , "huso" => "errores_numero_entero_positivo"
+        , "hemis" => "errores_texto"
+        */
     );
 
 
@@ -206,6 +209,30 @@ class bienes extends \core\sgbd\bd {
         
         return $fila;   
     }
+    
+    public static $validaciones_anhadir_detalles = array(
+        "v" => array(
+            "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/detalles_vivienda/id"
+            ,"bien_id" => "errores_requerido && errores_numero_entero_positivo && errores_unicidad_modificar:id,bien_id/detalles_vivienda/id,bien_id"
+            , "tipo_bien_id" => "errores_numero_entero_positivo && errores_referencia:tipo_bien_id/tipos_bien/id"
+            , "anho_const" => "errores_numero_entero_positivo"
 
+            , "num_hab" =>"errores_numero_entero_positivo"
+            , "num_banhos" => "errores_numero_entero_positivo"
+            , "descripcion" => "errores_texto"
 
+            , "file_fotos" => "errores_texto"
+        ),
+        "g" => array(
+            "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/detalles_garaje/id"
+            ,"bien_id" => "errores_requerido && errores_numero_entero_positivo && errores_unicidad_modificar:id,bien_id/detalles_garaje/id,bien_id"
+            , "tipo_bien_id" => "errores_numero_entero_positivo && errores_referencia:tipo_bien_id/tipos_bien/id"
+            , "anho_const" => "errores_numero_entero_positivo"
+
+            , "m_largo" => "errores_decimal"
+            , "m_ancho" => "errores_decimal"
+
+            , "file_fotos" => "errores_texto"
+        )
+    );
 }

@@ -9,7 +9,7 @@
         <br/>
         
         URL*:
-        <input type='text' id='<?php echo \controladores\Enlaces::$campo2 ?>' name='<?php echo \controladores\Enlaces::$campo2 ?>' maxsize='50' size='89' value="<?php echo isset($datos['values'][$pos]['url']) ? $datos['values'][$pos]['url'] : str_replace("\\", "", \core\Array_Datos::values('url', $datos)); ?>"/>
+        <input type='url' id='<?php echo \controladores\Enlaces::$campo2 ?>' name='<?php echo \controladores\Enlaces::$campo2 ?>' maxsize='50' size='89' value="<?php echo isset($datos['values'][$pos]['url']) ? $datos['values'][$pos]['url'] : str_replace("\\", "", \core\Array_Datos::values('url', $datos)); ?>"/>
         <?php echo \core\HTML_Tag::span_error('url', $datos) ?>
         <br/>
         

@@ -8,5 +8,9 @@
 
 <h4>Centro Príncipe Mayor<br/>Madrid</h4>
 
-<a href="jmartmoreno@yahoo.es">jmartmoreno@yahoo.es</a><br/>
+<?php 
+    $email = \core\Configuracion::$email_info;
+?>
+
+<a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><br/>
 teléfono 628 11 64 30

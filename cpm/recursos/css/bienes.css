@@ -204,3 +204,12 @@ input,select {
 .acciones{
     margin-top: 10%;
 }
+#mapa{
+    text-align: center;
+}
+
+#form_subir_fotos_ajax{
+    float:right;
+    border: 5px green;
+    border-style:  groove;
+}

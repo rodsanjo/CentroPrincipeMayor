@@ -17,7 +17,7 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="<?php echo URL_HOME_ROOT ?>recursos/js/map/geoLocalizacionPosicion.js"></script>
-<script type="text/javascript" src="<?php echo URL_HOME_ROOT ?>recursos/js/map/conversionUTMgeo.js"></script>
+<!--<script type="text/javascript" src="<?php echo URL_HOME_ROOT ?>recursos/js/map/conversionUTMgeo.js"></script>-->
 
 <div id="inmueble">
     <h2></h2>
@@ -59,16 +59,16 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                 <p><?php echo $texto['resenha'] ?></p>
             </div>
             <div id="mapa">
-                <div id="mapholder">
-                </div>
-                <button id="botonMostrarMapa" onmousemove="utm_a_LatLon();" onclick="getLocation();">Mostrar mapa</button>
-                <form name="frmConverter">
+                <center><div id="mapholder"></div></center>
+                <button id="botonMostrarMapa"  onclick="getLocation();">Mostrar ubicación</button>
+                <form name="frmCoord">
+<!-- Evento dentro del button: onmousemove="utm_a_LatLon();"
                     <div id="coord_utm">
                         <input  type="hidden" id="utm_x" name="utm_x" value="<?php echo $v['utm_x']; ?>"/>
                         <input  type="hidden" id="utm_y" name="utm_y" value="<?php echo $v['utm_y']; ?>"/>
                         <input  type="hidden" id="huso" name="huso" value="<?php echo $v['huso']; ?>"/>
                         <input  type="hidden" id="hemis" name="hemis" value="<?php echo $v['hemis']; ?>"/>
-                    </div>
+                    </div>-->
                     <div id="coord_latlon">
                         <input  type="hidden" id="lat" name="lat" value="<?php echo $v['lat']; ?>"/>
                         <input  type="hidden" id="lon" name="lon" value="<?php echo $v['lon']; ?>"/>
@@ -97,29 +97,34 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                     <br/>Planta: <?php echo $fila['planta']!= '' ? ($fila['planta']!= 0 ? $fila['planta'].'º' : 'baja') : '-';
                     if ( isset($datos['detalles']) ){
                         if($fila['tipo'] == 'v'){ ?>
-                        <br/>Nº habitaciones: <?php echo $datos['detalles']['num_hab']; ?> 
-                        <br/>Nº baños: <?php echo $datos['detalles']['num_banhos']; ?>
-                        <br/>Año de construcción: <?php echo $datos['detalles']['anho_const']; ?>
-                <?php }else if($fila['tipo'] == 'g') ?>
-                        <br/>Año de construcción: <?php echo $datos['detalles']['anho_const']; ?>
-                        <br/><?php echo $datos['detalles']['m_largo']; ?> de largo
-                        <br/><?php echo $datos['detalles']['m_ancho']; ?> de ancho
-                        <br/><?php echo $datos['detalles']['m_ancho']*$datos['detalles']['m_largo']; ?> m<sup>2</sup>
+                            <br/>Nº habitaciones: <?php echo $datos['detalles']['num_hab']; ?> 
+                            <br/>Nº baños: <?php echo $datos['detalles']['num_banhos']; ?>
+                            <br/>Año de construcción: <?php echo $datos['detalles']['anho_const']; ?>
+                        <?php
+                        }else if($fila['tipo'] == 'g'){ ?>
+                            <br/>Año de construcción: <?php echo $datos['detalles']['anho_const']; ?>
+                            <br/><?php echo $datos['detalles']['m_largo']; ?> de largo
+                            <br/><?php echo $datos['detalles']['m_ancho']; ?> de ancho
+                            <br/><?php echo $datos['detalles']['m_ancho']*$datos['detalles']['m_largo']; ?> m<sup>2</sup>
+                        <?php } ?>
                 <br/>
             </p>
-            <?php
-            }
-            ?>
+                    <?php
+                    }
+                    ?>
             <div id="formulario">
                 <?php
                     include PATH_APPLICATION_APP."vistas/bienes/form_comentario.php";
                 ?>
             </div>
             <br/><br/>
-            <?php
+            <div id="accionesAdmin">
+                <?php
                 echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"))."<br/><br/>";
-                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_borrar", $fila['id']), "borrar inmueble", array("title" => "borrar inmueble"));
-            ?>
+                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_borrar", $fila['id']), "Borrar inmueble", array("title" => "Borrar inmueble"))."<br/><br/>";
+                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_anhadir_detalles", $fila['id'], $fila['tipo']), "Añadir detalles inmueble", array("title" => "Añadir detalles inmueble"));
+                ?>
+            </div>
         </div>
     </div>
 </div>

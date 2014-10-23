@@ -4,8 +4,8 @@
 
         <textarea name="comentario" id="comentario" class="input_form_comentario" value="Comentarios" onFocus="if(this.value=='Comentarios')this.value='';" onblur="if(this.value=='')this.value='Comentarios';"></textarea>
         <input type="text" name="nombre" id="nombre" class="input_form_comentario" value="Nombre" onFocus="if(this.value=='Nombre')this.value='';" onblur="if(this.value=='')this.value='Nombre';"/>
-        <input type="text" name="phone" id="phone" class="input_form_comentario"  value="Teléfono" onFocus="if(this.value=='Teléfono')this.value='';" onblur="if(this.value=='')this.value='Teléfono';" maxlength="15"/>
-        <input type="text" name="email" id="email" class="input_form_comentario"  value="Email" style="margin-right:0px;" onFocus="if(this.value=='Email')this.value='';" onblur="if(this.value=='')this.value='Email';"/>
+        <input type="tel" name="phone" id="phone" class="input_form_comentario"  value="Teléfono" onFocus="if(this.value=='Teléfono')this.value='';" onblur="if(this.value=='')this.value='Teléfono';" maxlength="15"/>
+        <input type="email" name="email" id="email" class="input_form_comentario"  value="Email" style="margin-right:0px;" onFocus="if(this.value=='Email')this.value='';" onblur="if(this.value=='')this.value='Email';"/>
 
 
         <input type="hidden" name="referencia" id="referencia"  value="<?php echo $fila['referencia']; ?>" />

@@ -51,6 +51,7 @@ class bienes extends \core\Controlador {
         //var_dump($post);
         //Clausulas para la busqueda:
         if( isset($post['referencia']) && $post['referencia'] != '' ){
+            $post['referencia'] = trim( $post['referencia'] ); //Eliminamos los espacios en blanco del inicio y final 
             $clausulas['where'] = " referencia like '%{$post['referencia']}%'";
         }else{
             $clausulas['where'] = " 1 ";    //Siempre es true
@@ -236,6 +237,7 @@ class bienes extends \core\Controlador {
         }
         if ( ! $validacion){ //Devolvemos el formulario para que lo intente corregir de nuevo
             \core\Distribuidor::cargar_controlador(self::$controlador, 'form_insertar', $datos);
+            //$this->cargar_controlador(self::$controlador, 'form_insertar',$datos);
         }else{
             // Se ha grabado la modificación. Devolvemos el control al la situacion anterior a la petición del form_modificar
             //$datos = array("alerta" => "Se han grabado correctamente los detalles");
@@ -244,17 +246,6 @@ class bienes extends \core\Controlador {
             $_SESSION["alerta"] = "Se han grabado correctamente los detalles";
             //header("Location: ".\core\URL::generar("self::$controlador/index"));
             \core\HTTP_Respuesta::set_header_line("location", \core\URL::generar(self::$controlador."/index"));
-            \core\HTTP_Respuesta::enviar();
-        }
-        
-        if ( ! $validacion) //Devolvemos el formulario para que lo intente corregir de nuevo
-            $this->cargar_controlador(self::$controlador, 'form_insertar',$datos);
-        else
-        {
-            // Se ha grabado la modificación. Devolvemos el control al la situacion anterior a la petición del form_modificar
-            $_SESSION["alerta"] = "Se han grabado correctamente los datos";
-            //header("Location: ".\core\URL::generar("categorias/index"));
-            \core\HTTP_Respuesta::set_header_line("location", \core\URL::generar(\core\Distribuidor::get_controlador_instanciado()));
             \core\HTTP_Respuesta::enviar();
         }
     }
@@ -291,11 +282,6 @@ class bienes extends \core\Controlador {
         }
         
         //Mostramos los datos a modificar en formato europeo. Convertimos el formato de MySQL a europeo
-//        var_dump($fila['masa_atomica']);
-//        $datos['values']['masa_atomica']=  \core\Conversiones::decimal_punto_a_coma($datos['values']['masa_atomica']);
-//        if(preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT'])){
-//            $datos['values']['fecha_salida']=  \core\Conversiones::fecha_mysql_a_es($datos['values']['fecha_salida']);
-//        }
         self::convertir_formato_mysql_a_ususario($datos['values']);
                 
         $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
@@ -416,6 +402,133 @@ class bienes extends \core\Controlador {
     }
     
     /**
+     * Función que mostrara un formulario para añadir detalles del inmueble seleccionado.
+     * En función del tipo de inmueble que reciba mostrará un formulario diferente.
+     * Si es la primera vez que se añaden detalles hará un insert primero para que exista la fila
+     * @param array $datos
+     */
+    public static function form_anhadir_detalles(array $datos=array()){
+        
+        $get = \core\HTTP_Requerimiento::get();
+        $datos["form_name"] = __FUNCTION__.'_'.$get['p3'];
+        
+        self::request_come_by_post();   //Si vienen por POST sigue adelante
+        
+        $datos['p3'] = $get['p3']; //Para poder usar en la vista.
+        $datos['values']['bien_id'] = \core\HTTP_Requerimiento::post('id'); //Siempre viaja string
+        //var_dump($get);
+        //var_dump($_SESSION);
+        
+        //$datos['values']['tipo_bien'] = $get['p3']; //Para poder usar en la vista.
+        //$datos['values']['bien_id'] = $_POST['id']; //Para poder usar en la vista.
+        
+        if( $get['p3'] == 'v' || $get['p3'] == 'g' ){       
+            $tabla = 'tabla_d'.$get['p3'];    //Voy a usar una variable de variable
+            
+            //Si es la primera vez que añadimos detalles, se inserta una nueva fila en la tabla
+            $clausulas['where'] = ' bien_id = '.$datos['values']['bien_id'] ;
+            if ( ! $filas = \modelos\Datos_SQL::select( $clausulas , self::$$tabla)){
+                if ( ! $validacion = \modelos\Datos_SQL::table( self::$$tabla )->insert($datos["values"])){ // Devuelve true o false
+                    $datos['mensaje'] = 'Ha surgido un problema inesperado. No se ha pueden añadir detalles en la bd.';
+                    \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);       
+                    return;
+                }
+            }
+            
+            //Ahora extraemos la fila insertada para mostrarla en el formulario
+            if ( ! isset($datos["errores"]) ) { // Si no es un reenvío desde una validación fallida
+                $validaciones = array(
+                    "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:bien_id/".self::$$tabla."/bien_id"
+                );
+                
+                //¡¡OJO!! Añado "false" o "is_null($datos['values']['bien_id']) && ! is_string($datos['values']['bien_id']) &&" porque no funciona, pierde el valor de $datos['values']['bien_id'] y no sé por que
+                //La razón es porque el formulario oculto que se envia con on_boton_onclik() tiene un input llamado id en vez de bien_id y la fucnión errores_validacion_request() crea dos variables quedandse vacio el bien_id
+                //Por ello me guardo la variable antes en otra porque al comprobar la validacion se pierde.
+                $bien_id = $datos['values']['bien_id'];
+                if (   ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
+                    $datos['mensaje'] = 'Datos erróneos para identificar el elemento a modificar';
+                    \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
+                    return;
+                }else{
+                    $clausulas['where'] = " bien_id = $bien_id ";
+                    if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, self::$$tabla)) {
+                        $datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
+                        \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
+                        return;
+                    }else{
+                        //En el select volvemos a recuperar $datos['values']['bien_id']
+                        $datos['values'] = $filas[0];
+                    }
+                }
+                
+            }
+
+            $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
+            $http_body = \core\Vista_Plantilla::generar('DEFAULT', $datos);
+            \core\HTTP_Respuesta::enviar($http_body);
+        }else{
+            //Para que nos lleve a la misma ubicación donde estabamos:
+            $url_anterior = $_SESSION['url']['anterior'];
+            
+            $_SESSION["alerta"] = 'Lo siento, a este tipo de inmuebles no se le pueden añadir detalles';
+            \core\HTTP_Respuesta::set_header_line("location", $url_anterior);
+            \core\HTTP_Respuesta::enviar();
+            
+            //Mediante mensaje
+            //$datos['mensaje'] = 'Lo siento, a este tipo de inmuebles no se le pueden añadir detalles';
+            //\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
+        }
+        
+
+    }
+    
+    /**
+     * Valida los datos insertados por el usuario. Si estos son correctos mostrará la lista de bienes con 
+     * la nueva inserción, sino mostrará los errores por los que nos se admitió los datos introducidos.
+     * @param array $datos
+     */
+    public function validar_form_anhadir_detalles(array $datos=array()) {
+
+        $get = \core\HTTP_Requerimiento::get();
+        $tabla = 'tabla_d'.$get['p3'];    //Voy a usar una variable de variable
+        
+        $validaciones = \modelos\bienes::$validaciones_anhadir_detalles;
+        
+        if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones[$get['p3']], $datos)){  //validaciones en PHP
+            $datos["errores"]["errores_validacion"]="Corrija los errores, por favor.";
+        }else{
+            //$validacion = self::comprobar_files($datos);
+            if ($validacion) {
+                //Convertimos a formato MySQL
+                self::convertir_detalles_a_formato_mysql($datos['values'], $get['p3']);
+                
+                //Ponemos el nombre donde guardaremos las fotos de los detalles
+                //Creamos la carpeta por si aún no estuviera
+                $datos['values']['file_fotos'] = \modelos\ficheros::getNombreCarpeta($datos['values']['bien_id']);
+                $ficherosBienes_path = PATH_APPLICATION."recursos".DS."ficheros".DS."bienes";
+                \modelos\ficheros::crearCarpeta($ficherosBienes_path, $datos['values']['file_fotos']);
+                
+                //if ( ! $validacion = \modelos\Modelo_SQL::insert($datos["values"], self::$tabla)) // Devuelve true o false
+                if ( ! $validacion = \modelos\Datos_SQL::table(self::$$tabla)->update($datos["values"])) // Devuelve true o false
+                    $datos["errores"]["errores_validacion"]="No se han podido grabar los datos en la bd.";
+            }
+        }
+        if ( ! $validacion){ //Devolvemos el formulario para que lo intente corregir de nuevo
+            \core\Distribuidor::cargar_controlador(self::$controlador, 'form_anahdir_detalles', $datos);
+        }else{
+            // Se ha grabado la modificación. Devolvemos el control al la situacion anterior a la petición del form_modificar
+            //$datos = array("alerta" => "Se han grabado correctamente los detalles");
+            // Definir el controlador que responderá después de la inserción
+            //\core\Distribuidor::cargar_controlador(self::$tabla, 'index', $datos);
+            $_SESSION["alerta"] = "Se han grabado correctamente los detalles";
+            //header("Location: ".\core\URL::generar("self::$controlador/index"));
+            \core\HTTP_Respuesta::set_header_line("location", \core\URL::generar(self::$controlador."/index"));
+            \core\HTTP_Respuesta::enviar();
+        }
+    }
+    
+    
+    /**
      * Si el requerimiento viene por GET nos mostrará un mensaje indicando que en esa sección
      * no está permitida la entrada de datos de forma manual, y cargará el controlador mensajes.
      * Si viene por POST, no devuelve nada, simplemente deja continuar la ejecución.
@@ -466,10 +579,15 @@ class bienes extends \core\Controlador {
                 $validacion = \modelos\Modelo_SQL::tabla(self::$tabla)->update($datos["values"]);
             }
         }
+        //Creamos una carpeta para guardar más fotos en ella al añadir detalles
+        $nombre = \modelos\ficheros::getNombreCarpeta($id);
+        $ficherosBienes_path = PATH_APPLICATION."recursos".DS."ficheros".DS."bienes";
+        \modelos\ficheros::crearCarpeta($ficherosBienes_path, $nombre);
     }
 
     /**
      * Guarda un archivo jpg en nuestros recursos en función del id del artículo
+     * Además crea una carpeta para añadir ficheros
      * @param $id
      * @return nombre del archivo o false
      */
@@ -477,14 +595,14 @@ class bienes extends \core\Controlador {
 
         // Ahora hay que añadir la foto
         $extension = substr($_FILES["foto"]["type"], stripos($_FILES["foto"]["type"], "/")+1);
-        $nombre = (string)$id;
-        $nombre = "bien".str_repeat("0", 6 - strlen($nombre)).$nombre;
+        $nombre = \modelos\ficheros::getNombreCarpeta($id);
         $foto_path = PATH_APPLICATION."recursos".DS."imagenes".DS."bienes".DS.$nombre.".".$extension;
 //					echo __METHOD__;echo $_FILES["foto"]["tmp_name"];  echo $foto_path; exit;
         // Si existe el fichero lo borramos
         if (is_file($foto_path)) {
             unlink($foto_path);
         }
+                    
         $validacion = move_uploaded_file($_FILES["foto"]["tmp_name"], $foto_path);
         return ($validacion ? $nombre.".".$extension : false);
 
@@ -535,6 +653,12 @@ class bienes extends \core\Controlador {
         self::borrar_foto($foto);
         //self::borrar_manual($plano);
         
+        //Borramos la carpeta creada al crear el inmueble para meter las fotos de los detalles
+        $ficherosBienes_path = PATH_APPLICATION."recursos".DS."ficheros".DS."bienes";
+        $nombre_carpeta = \modelos\ficheros::getNombreCarpeta($id); //$nombre_carpeta = substr($foto, 0, stripos($foto, '.' ) ); No funciona cuanod no existe la foto 
+        //var_dump($nombre_carpeta);
+        \modelos\ficheros::borrarCarpeta($ficherosBienes_path, $nombre_carpeta);
+        
     }
 
     /**
@@ -543,15 +667,16 @@ class bienes extends \core\Controlador {
      * @return null
      */
     private static function borrar_foto($foto) {
-        
-            $foto_path = PATH_APPLICATION."recursos".DS."imagenes".DS."bienes".DS.$foto;
-            // Si existe el fichero lo borramos
-            if (is_file($foto_path)) {
-                    return unlink($foto_path);
-            }
-            else {
-                    return null;
-            }
+                
+        $foto_path = PATH_APPLICATION."recursos".DS."imagenes".DS."bienes".DS.$foto;
+
+        // Si existe el fichero lo borramos
+        if (is_file($foto_path)) {
+            return unlink($foto_path);
+        }
+        else {
+            return null;
+        }
 
     }
 
@@ -564,10 +689,10 @@ class bienes extends \core\Controlador {
     private static function convertir_a_formato_mysql(array &$param) {  //$param = datos['values'] y lo pasamos por referencia, para que modifique el valor        
         $param['precio_venta'] = \core\Conversiones::decimal_coma_a_punto($param['precio_venta']);
         $param['precio_alquiler'] = \core\Conversiones::decimal_coma_a_punto($param['precio_alquiler']);
-        //$param['coord_lat'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_lat']);
-        //$param['coord_long'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_long']);
-        $param['coord_utm_x'] = \core\Conversiones::decimal_coma_a_punto($param['coord_utm_x']);
-        $param['coord_utm_y'] = \core\Conversiones::decimal_coma_a_punto($param['coord_utm_y']);
+        $param['coord_lat'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_lat']);
+        $param['coord_long'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['coord_long']);
+        //$param['coord_utm_x'] = \core\Conversiones::decimal_coma_a_punto($param['coord_utm_x']);
+        //$param['coord_utm_y'] = \core\Conversiones::decimal_coma_a_punto($param['coord_utm_y']);
         $param['sup_const'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['sup_const']);
         $param['sup_util'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['sup_util']);
     }    
@@ -588,10 +713,14 @@ class bienes extends \core\Controlador {
                 if(isset($param[$key]['precio_alquiler']))
                     $param[$key]['precio_alquiler']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['precio_alquiler']);
                 if($coords){
-                    if(isset($param[$key]['coord_utm_x']))
-                        $param[$key]['coord_utm_x']=  \core\Conversiones::poner_punto_separador_miles($fila['coord_utm_x']);
-                    if(isset($param[$key]['coord_utm_y']))
-                        $param[$key]['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['coord_utm_y']);
+                    if(isset($param[$key]['coord_lat']))
+                        $param[$key]['coord_lat']=  \core\Conversiones::decimal_punto_a_coma($fila['coord_lat']);
+                    if(isset($param[$key]['coord_long']))
+                        $param[$key]['coord_long']=  \core\Conversiones::decimal_punto_a_coma($fila['coord_long']);
+//                    if(isset($param[$key]['coord_utm_x']))
+//                        $param[$key]['coord_utm_x']=  \core\Conversiones::poner_punto_separador_miles($fila['coord_utm_x']);
+//                    if(isset($param[$key]['coord_utm_y']))
+//                        $param[$key]['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['coord_utm_y']);
                 }
                 if(isset($param[$key]['sup_util']))
                     $param[$key]['sup_util']=  \core\Conversiones::decimal_punto_a_coma_y_miles($fila['sup_util']);
@@ -608,13 +737,18 @@ class bienes extends \core\Controlador {
             if(isset($param['precio_alquiler']))
                 $param['precio_alquiler']=  \core\Conversiones::poner_punto_separador_miles($param['precio_alquiler']);
             if($coords){
-                if(isset($param['coord_utm_x']))
-                    var_dump ($param['coord_utm_x']);
-                    $param['coord_utm_x']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_x']);
-                    var_dump ($param['coord_utm_x']);
-                if(isset($param['coord_utm_y']))
-                    $param['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_y']);
-            }            
+                if(isset($param['coord_lat']))
+                    $param['coord_lat']=  \core\Conversiones::decimal_punto_a_coma($param['coord_lat']);
+                if(isset($param['coord_long']))
+                    $param['coord_long']=  \core\Conversiones::decimal_punto_a_coma($param['coord_long']);
+//            if($coords){
+//                if(isset($param['coord_utm_x']))
+//                    var_dump ($param['coord_utm_x']);
+//                    $param['coord_utm_x']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_x']);
+//                    var_dump ($param['coord_utm_x']);
+//                if(isset($param['coord_utm_y']))
+//                    $param['coord_utm_y']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['coord_utm_y']);
+            }
             if(isset($param['sup_util']))
                 $param['sup_util']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['sup_util']);
             if(isset($param['sup_const']))
@@ -625,6 +759,20 @@ class bienes extends \core\Controlador {
                 $param['m_ancho']=  \core\Conversiones::decimal_punto_a_coma_y_miles($param['m_ancho']);
         }
         
+    }
+    
+    /**
+     * Fución que realiza las conversiones de los campos usados en está aplicación al formato utilizado por MySQL.
+     * Convertimos a formato MySQL
+     * @author Jorge Rodriguez Sanz
+     * @param array $param Se corresponderá por regla general con datos['values'] y lo pasamos por referencia, para que modifique el valor
+     */
+    private static function convertir_detalles_a_formato_mysql(array &$param , $tipo_bien) {  //$param = datos['values'] y lo pasamos por referencia, para que modifique el valor        
+        //var_dump($param);
+        if($tipo_bien == 'g'){
+            $param['m_largo'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['m_largo']);
+            $param['m_ancho'] = \core\Conversiones::decimal_puntoOcoma_a_punto($param['m_ancho']);
+        }
     }
     
     /**
@@ -652,6 +800,19 @@ class bienes extends \core\Controlador {
             $pref_provincia = 'ES';
         
         return $pref_provincia.strtoupper( base_convert( uniqid(), 10, 30) ).'-CPM'; //referencia 
+    }
+    
+    private function carpeta($id, array &$datos = array()) {
+
+        $validaciones = array(
+            "p3" => "errores_requerido && errores_identificador"
+        );
+        if ( ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
+            $datos["carpeta"] = $datos["values"]["p3"];
+            $datos["ficheros"] = \modelos\ficheros::get_ficheros($datos["values"]["p3"]);
+        }
+
+
     }
 	
 } // Fin de la clase

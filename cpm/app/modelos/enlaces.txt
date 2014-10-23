@@ -2,4 +2,5 @@ titulo;url;descripcion
 Seinar;http://serviciosdeingenieriayarquitectura.hol.es/;En SERVICIOS DE INGENIERÍA Y ARQUITECTURA ponemos a su servicio una gran plantilla de profesionales independientes para realizar su proyecto.
 Promociones RAS;http://promocionesras.es/;Inmobiliaria ubicada en Ávila Residencial Avenida del Sotillo S.L.
 Mi piso 1 Ocaña;http://www.mipiso1.com/inicio#;Inmobilaria ubicada en Ocaña (Toledo)
-Hogar Madrid;http://hogarmadrid.es/;Inmobilaria ubicada en Madrid
+Hogar Madrid;http://hogarmadrid.es/;Hogar Madrid le ofrece sus servicios inmobiliarios en diferentes zonas de Madrid, con profesionales que tienen mas de quince años de experiencia en el sector.
+Jergo-blog;http://jergo-blog.esy.es/;Programador Web interesado en continuar su desarrollo y formación profesional en una empresa del sector, aplicando los conocimientos teóricos y prácticos adquiridos durante estos años de estudio y trabajo. ¡Navegue para darse a conocer!
