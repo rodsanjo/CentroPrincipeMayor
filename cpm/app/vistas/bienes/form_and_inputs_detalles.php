@@ -2,12 +2,15 @@
 //var_dump($datos);
 $get['p3'] = \core\HTTP_Requerimiento::get('p3');
 $datos['values']['tabla'] = 'tabla_d'.$get['p3'];
+// <input id='foto' name="fotos[]" multiple
 ?>
 
-<form id="form_subir_fotos_ajax" name='form_subir_fotos_ajax' method="post" enctype='multipart/form-data' >
-    <input id='id' name='id' type='hidden' value='<?php echo \core\Array_Datos::values('id', $datos); ?>' />
-    <input id='foto' name='foto' type='file' size='100'  maxlength='50' value='<?php echo \core\Array_Datos::values('foto', $datos); ?>'/>
+<form id="form_subir_fotos_ajax" name='form_subir_fotos_ajax' method="post" enctype='multipart/form-data' action="<?php echo URL_ROOT.'ajax/anhadir_foto'; ?>">
+    <input id='bien_id' name='bien_id' type='hidden' value='<?php echo \core\Array_Datos::values('bien_id', $datos); ?>' />
+    <input id='foto' name="foto" type='file' size='100'  maxlength='50' value='<?php echo \core\Array_Datos::values('foto', $datos); ?>'/>
     <?php echo \core\HTML_Tag::span_error('foto', $datos); ?>
+    
+    <div id="respuesta_ajax"></div>
     
     <input id="btn_enviar" type="button" value="Añadir foto" class="btn-default boton"/>
     <input type="submit" name="enviar" value="Añadir foto" class='btn-default botonBuscar'/>
@@ -133,35 +136,57 @@ $datos['values']['tabla'] = 'tabla_d'.$get['p3'];
 <script type="text/javascript">
 	
 	//Fucnión para enviar el al hacer submit en el formulario.
+        /*
 	jQuery(document).ready(function() {
 		$("#form_subir_fotos_ajax").submit(function(){
 			// debugger;
+                        var url = '<?php //echo URL_ROOT.'ajax/anhadir_foto'; ?>' // El script a dónde se realizará la petición.
 			jQuery.post(
-				"yvive/ajax_enviarMail.php"
+				url
 				,jQuery("#form_subir_fotos_ajax").serialize()
 				,function(data, textStatus, jqXHR) {
 					// debugger;
 					// alert("resultados: "+data);
-					$("#respuestas").html(data);
+					$("#respuesta_ajax").html(data);
 				}
 			);
 			return false; // avoid to execute the actual submit of the form.
 		});
-	});	
-	
+	});
+	*/
 	//Fucnión para enviar el mail con onclick sin enviar el formulario.
 	$(function(){
-		$("#btn_enviar").click(function(){
-			var url = "http://yvive/ajax_enviarMail.php"; // El script a dónde se realizará la petición.
-	    	$.ajax({
-	           type: "POST",
-	           url: url,
-	           data: $("#form_subir_fotos_ajax").serialize(), // Adjuntar los campos del formulario enviado.
-	           success: function(data){
-	               $("#respuestas").html(data); // Mostrar la respuestas del script PHP.
-	       		}
-	        });
-	    return false; // Evitar ejecutar el submit del formulario.
+            $("#btn_enviar").click(function(event){
+                event.preventDefault();
+                var url = '<?php echo URL_ROOT.'ajax/anhadir_foto'; ?>'; // El script a dónde se realizará la petición.
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("#form_subir_fotos_ajax").serialize(), // Adjuntar los campos del formulario enviado.
+                    success: function(data){
+                       $("#respuesta_ajax").html(data); // Mostrar la respuestas del script PHP.
+                    }
+                    
+            });
+            return false; // Evitar ejecutar el submit del formulario.
 	 });
-});
+        });
+        
+        function subirFotos(){
+            $.ajax({
+              url: '<?php echo URL_ROOT.'ajax/anhadir_foto'; ?>',
+              data: $('#foto').attr('files'),
+              cache: false,
+              contentType: 'multipart/form-data',
+              type: 'POST',
+              dataType: 'html',
+              success: function() {
+                    $("#respuesta_ajax").html(data);
+              }
+              })
+	};
+        
+        function cargar(div, url) {
+            $(div).load( url );
+        }
 </script>

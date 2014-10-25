@@ -104,8 +104,8 @@ heredoc;
 ////          print("\$_SESSION ");print_r($_SESSION);
 ////          print("\$_SERVER ");print_r($_SERVER);
 //        print "</pre>";
-//            print("xdebug_get_code_coverage() ");
-//            var_dump(xdebug_get_code_coverage());
+////            print("xdebug_get_code_coverage() ");
+////            var_dump(xdebug_get_code_coverage());
     ?>
 </div>
     

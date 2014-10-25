@@ -94,18 +94,32 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
             <br/>
             <p>
                 <b>Características:</b>
-                    <br/>Planta: <?php echo $fila['planta']!= '' ? ($fila['planta']!= 0 ? $fila['planta'].'º' : 'baja') : '-';
+                    <br/>Planta: 
+                        <?php 
+                        echo
+                            $fila['planta']!= '' ?
+                                ($fila['planta']!= 0 ? 
+                                    ( $fila['planta'] > 0 ? 
+                                        $fila['planta'].'º' :
+                                        $fila['planta'] ) :
+                                    'baja') :
+                                '-';
                     if ( isset($datos['detalles']) ){
+                        //Vamos a poner un guión en todos los datos nulos:
+                        foreach ($datos['detalles'] as $key => $value) {
+                            $datos['detalles'][$key] == null ? $datos['detalles'][$key] = '-' : '' ;
+                        }
+                        echo "<br/>Año de construcción: ".$datos['detalles']['anho_const'];
                         if($fila['tipo'] == 'v'){ ?>
+                            <br/><?php echo $datos['detalles']['tipo_bien'][0]['tipo']; ?>
                             <br/>Nº habitaciones: <?php echo $datos['detalles']['num_hab']; ?> 
-                            <br/>Nº baños: <?php echo $datos['detalles']['num_banhos']; ?>
-                            <br/>Año de construcción: <?php echo $datos['detalles']['anho_const']; ?>
+                            <br/>Nº cuartos de baños: <?php echo $datos['detalles']['num_banhos']; ?>
+                            
                         <?php
                         }else if($fila['tipo'] == 'g'){ ?>
-                            <br/>Año de construcción: <?php echo $datos['detalles']['anho_const']; ?>
-                            <br/><?php echo $datos['detalles']['m_largo']; ?> de largo
-                            <br/><?php echo $datos['detalles']['m_ancho']; ?> de ancho
-                            <br/><?php echo $datos['detalles']['m_ancho']*$datos['detalles']['m_largo']; ?> m<sup>2</sup>
+                            <br/><?php echo $datos['detalles']['m_largo']; ?> m de largo
+                            <br/><?php echo $datos['detalles']['m_ancho']; ?> m de ancho
+                            <br/>Superficie total: <?php echo $datos['detalles']['m_ancho']*$datos['detalles']['m_largo']; ?> m<sup>2</sup>
                         <?php } ?>
                 <br/>
             </p>

@@ -9,9 +9,7 @@
             <?php
                 $sql = 'select * from cpm_tipos_bien';
                 $datos['tipos_bien'] = \core\sgbd\mysqli::execute($sql);
-                if (\core\Distribuidor::get_metodo_invocado() == "form_insertar") {
-                    echo "<option value='v' selected='selected'>Vivienda</option>";
-                }
+                //Por defecto estará seleccionada la vivienda que es el primer elemento de la lista
                 foreach ($datos['tipos_bien'] as $key => $tipo_bien) {
                     if( ! is_null($tipo_bien['id_letra']) ){
                         $value = "value = '{$tipo_bien['id_letra']}'";

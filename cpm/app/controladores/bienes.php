@@ -5,6 +5,7 @@ class bienes extends \core\Controlador {
     
     private static $tabla = 'bienes';
     private static $tabla_tv = 'tipos_via';
+    private static $tabla_tb = 'tipos_bien';
     private static $tabla_dv = 'detalles_vivienda';
     private static $tabla_dg = 'detalles_garaje';
     
@@ -155,16 +156,24 @@ class bienes extends \core\Controlador {
             //Usando articulo_id como FK buscamos los detalles del inmueble
             $bien_id = $filas[0]['id'];
             $clausulas['where'] = " bien_id like '%$bien_id%' ";
-            /*
+            
             //Para cuando existan detalles de algunos bienes
+            $tieneTipo = false;
             if( $filas[0]['tipo'] == 'v'){
                 $filas = \modelos\Modelo_SQL::table(self::$tabla_dv)->select($clausulas);
                 $datos["detalles"] = $filas[0];
+                $tieneTipo = true;
             }elseif( $filas[0]['tipo'] == 'g'){
                 $filas = \modelos\Modelo_SQL::table(self::$tabla_dg)->select($clausulas);
                 $datos["detalles"] = $filas[0];
+                $tieneTipo = true;
             }
-            */
+            if($tieneTipo && isset($datos['detalles']['tipo_bien_id'])){
+                $tabla = \core\Modelo_SQL::get_prefix_tabla(self::$tabla_tb);
+                $sql = 'select tipo from '.$tabla.' where id = '.$datos['detalles']['tipo_bien_id'];
+                $datos['detalles']['tipo_bien'] = \modelos\Modelo_SQL::execute($sql);
+            }
+            
         }
         
         //var_dump($datos);
