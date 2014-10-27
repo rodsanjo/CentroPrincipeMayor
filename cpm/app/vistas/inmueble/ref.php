@@ -8,8 +8,8 @@ $title = ((isset($fila['resenha']) and strlen($fila['resenha'])) ? $fila['resenh
 $img = isset($fila["foto"]) ? "<img class='img_cpm' src='".URL_ROOT."recursos/imagenes/bienes/".$fila["foto"]."' alt='{$fila['referencia']}' title='{$fila['referencia']}' />" :"<img/>";
 
 //Llamamos a una función que convierta el resto de datos a formato de la vista
-$v = modelos\bienes::formatoVistaBienesInmueble($fila);
-$texto = \modelos\bienes::insertarSaltosDeCarro($fila);
+$v = modelos\inmueble::formatoVistaInmuebleRef($fila);
+$texto = \modelos\inmueble::insertarSaltosDeCarro($fila);
 
 //var_dump($v, $fila);
 //include URL_HOME_ROOT.'recursos/js/map/map.php';
@@ -75,6 +75,7 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                     </div>
                 </form>
             </div>
+            <button type='button' onclick='window.location.assign("<?php echo \core\URL::generar('bienes/busqueda'); ?>");' class="btn-default boton1">Volver al listado de inmuebles</button>
         </div>
         
         <div id="derecha">
@@ -119,7 +120,7 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                         }else if($fila['tipo'] == 'g'){ ?>
                             <br/><?php echo $datos['detalles']['m_largo']; ?> m de largo
                             <br/><?php echo $datos['detalles']['m_ancho']; ?> m de ancho
-                            <br/>Superficie total: <?php echo $datos['detalles']['m_ancho']*$datos['detalles']['m_largo']; ?> m<sup>2</sup>
+                            <br/>Superficie total: <?php echo round( $datos['detalles']['m_ancho']*$datos['detalles']['m_largo'], 1 ); ?> m<sup>2</sup>
                         <?php } ?>
                 <br/>
             </p>
@@ -128,7 +129,7 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                     ?>
             <div id="formulario">
                 <?php
-                    include PATH_APPLICATION_APP."vistas/bienes/form_comentario.php";
+                    include PATH_APPLICATION_APP."vistas/inmueble/form_comentario.php";
                 ?>
             </div>
             <br/><br/>
@@ -136,7 +137,7 @@ $texto = \modelos\bienes::insertarSaltosDeCarro($fila);
                 <?php
                 echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_modificar", $fila['id']), "Modificar inmueble", array("title" => "Modificar inmueble"))."<br/><br/>";
                 echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_borrar", $fila['id']), "Borrar inmueble", array("title" => "Borrar inmueble"))."<br/><br/>";
-                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("bienes", "form_anhadir_detalles", $fila['id'], $fila['tipo']), "Añadir detalles inmueble", array("title" => "Añadir detalles inmueble"));
+                echo \core\HTML_Tag::a_boton_onclick("botonAdmin", array("inmueble", "form_anhadir_detalles", $fila['id'], $fila['tipo']), "Añadir detalles inmueble", array("title" => "Añadir detalles inmueble"));
                 ?>
             </div>
         </div>

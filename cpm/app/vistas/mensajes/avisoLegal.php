@@ -15,13 +15,13 @@ En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios
     <li>CIF:</li>
     <li>Domicilio social y comercial: C/ Gran Vía, Madrid</li>
     <li>Teléfono: </li>
-    <li>Internet: http://www.centroprincipemayor.hol.es </li>
+    <li>Internet: http://www.centroprincipemayor.esy.es </li>
     <li>Correo Electrónico: email@gmail.com</li>
 </ul>
 
 <h4>Aviso Legal</h4>
 <p>
-El presente aviso legal (en adelante, el “Aviso Legal”) regula el uso del servicio del portal de Internet www.CentroPrincipeMayor.hol.es (en adelante, el “Web”) de la empresa Arte Detectives, en adelante CentroPrincipeMayor.
+El presente aviso legal (en adelante, el “Aviso Legal”) regula el uso del servicio del portal de Internet www.CentroPrincipeMayor.esy.es (en adelante, el “Web”) de la empresa Arte Detectives, en adelante CentroPrincipeMayor.
 Arte Detectives no puede asumir ninguna responsabilidad derivada del uso incorrecto, inapropiado o ilícito de la información aparecida en las páginas de Internet de CentroPrincipeMayor. Con los límites establecidos en la ley, CentroPrincipeMayor no asume ninguna responsabilidad derivada de la falta de veracidad, integridad, actualización y precisión de los datos o informaciones que se contienen en sus páginas de Internet.
 </p>
 
@@ -40,7 +40,7 @@ Los textos, imágenes, logotipos, marcas, sonidos, animaciones, software y el re
 
 <h4>LOPD – Política de privacidad de datos personales</h4>
 <p>
-Mediante el presente aviso, CentroPrincipeMayor, informa a los visitantes y/o usuarios del sitio que los datos solicitados o aportados por medio de la página Web poseen carácter voluntario, siendo facilitados por los clientes libremente y por tanto prestando su consentimiento para ser empleados para atender la consulta, petición de información o prestación de servicio solicitado. Los clientes podrán ejercer su derecho de acceso, rectificación, cancelación y oposición mediante la comunicación vía correo ordinario a la dirección: C/Gran Vía, s/n · MAdrid, o correo electrónico: CentroPrincipeMayor@gmail.com
+Mediante el presente aviso, CentroPrincipeMayor, informa a los visitantes y/o usuarios del sitio que los datos solicitados o aportados por medio de la página Web poseen carácter voluntario, siendo facilitados por los clientes libremente y por tanto prestando su consentimiento para ser empleados para atender la consulta, petición de información o prestación de servicio solicitado. Los clientes podrán ejercer su derecho de acceso, rectificación, cancelación y oposición mediante la comunicación vía correo ordinario a la dirección: C/Gran Vía, s/n · MAdrid, o correo electrónico: CentroPrincipeMayor@email.com
 </p>
 <p>
 Los datos facilitados serán empleados de acuerdo a la Ley Orgánica 15/1999, de 13 de Diciembre, de Protección de Datos de Carácter Personal, reservándose el derecho de modificar la política para adaptarla a las variaciones legales que puedan surgir.
@@ -61,7 +61,7 @@ El usuario tiene la opción de impedir la generación de cookies, mediante la se
 El plazo de validez de las cookies es de un máximo de 5 años y su aceptación se entiende aceptada si continúa navegando o al usar el sitio web.
 </p>
 <p>
-El usuario autoriza a CentroPrincipeMayor a obtener y tratar la información que se genere como consecuencia de la utilización de la web www.CentroPrincipeMayor.hol.es con la única finalidad de ofrecerle una navegación más personalizada.
+El usuario autoriza a CentroPrincipeMayor a obtener y tratar la información que se genere como consecuencia de la utilización de la web www.CentroPrincipeMayor.esy.es con la única finalidad de ofrecerle una navegación más personalizada.
 </p>
 <p>
 Este sitio está siendo medido con las soluciones de la herramienta de medición de audiencia Google Analytics, un servicio analítico de web prestado por Google, Inc., una compañía de Delaware cuya oficina principal está en 1600 Amphitheatre Parkway,

@@ -5,15 +5,17 @@ $datos['values']['tabla'] = 'tabla_d'.$get['p3'];
 // <input id='foto' name="fotos[]" multiple
 ?>
 
-<form id="form_subir_fotos_ajax" name='form_subir_fotos_ajax' method="post" enctype='multipart/form-data' action="<?php echo URL_ROOT.'ajax/anhadir_foto'; ?>">
+<form id="form_subir_fotos_ajax" name='form_subir_fotos_ajax' method="post" enctype='multipart/form-data' >
     <input id='bien_id' name='bien_id' type='hidden' value='<?php echo \core\Array_Datos::values('bien_id', $datos); ?>' />
-    <input id='foto' name="foto" type='file' size='100'  maxlength='50' value='<?php echo \core\Array_Datos::values('foto', $datos); ?>'/>
+    <input id='file_select' name="foto[]" multiple type='file'/>
     <?php echo \core\HTML_Tag::span_error('foto', $datos); ?>
     
     <div id="respuesta_ajax"></div>
     
-    <input id="btn_enviar" type="button" value="Añadir foto" class="btn-default boton"/>
+    <input id="btn_enviar" type="button" value="Añadir foto" class="btn-default boton1"/>
+    <button type="submit" id="upload_button" class='btn-default boton'>Upload</button>
     <input type="submit" name="enviar" value="Añadir foto" class='btn-default botonBuscar'/>
+
 </form>
 
 <form method='post' name='<?php echo \core\Array_Datos::contenido("form_name", $datos); ?>' action="<?php echo \core\URL::generar($datos['controlador_clase'].'/validar_'.$datos['controlador_metodo'].'/'.$get['p3']); ?>" onsubmit="return validarForm();">
@@ -133,6 +135,7 @@ $datos['values']['tabla'] = 'tabla_d'.$get['p3'];
     }
 </script>
 
+
 <script type="text/javascript">
 	
 	//Fucnión para enviar el al hacer submit en el formulario.
@@ -140,6 +143,7 @@ $datos['values']['tabla'] = 'tabla_d'.$get['p3'];
 	jQuery(document).ready(function() {
 		$("#form_subir_fotos_ajax").submit(function(){
 			// debugger;
+                        $("#respuesta_ajax").text('Enviando...');
                         var url = '<?php //echo URL_ROOT.'ajax/anhadir_foto'; ?>' // El script a dónde se realizará la petición.
 			jQuery.post(
 				url
@@ -158,6 +162,9 @@ $datos['values']['tabla'] = 'tabla_d'.$get['p3'];
 	$(function(){
             $("#btn_enviar").click(function(event){
                 event.preventDefault();
+                $("#respuesta_ajax").text('Enviando...');
+                var imagen = '<?php echo URL_HOME_ROOT ?>recursos/imagenes/ajax-loader.gif';
+                $("#respuesta_ajax").html('<img src="'+imagen+'"/>');
                 var url = '<?php echo URL_ROOT.'ajax/anhadir_foto'; ?>'; // El script a dónde se realizará la petición.
                 $.ajax({
                     type: "POST",
@@ -172,21 +179,105 @@ $datos['values']['tabla'] = 'tabla_d'.$get['p3'];
 	 });
         });
         
-        function subirFotos(){
-            $.ajax({
-              url: '<?php echo URL_ROOT.'ajax/anhadir_foto'; ?>',
-              data: $('#foto').attr('files'),
-              cache: false,
-              contentType: 'multipart/form-data',
-              type: 'POST',
-              dataType: 'html',
-              success: function() {
-                    $("#respuesta_ajax").html(data);
+        var form = document.getElementById('form_subir_fotos_ajax');
+        var fileSelect = document.getElementById('file_select');
+        var uploadButton = document.getElementById('upload_button');
+        var url_ajax = '<?php echo URL_ROOT.'ajax/anhadir_foto'; ?>'; // El script a dónde se realizará la petición.
+        
+        form.onsubmit = function(event) {
+            event.preventDefault();
+
+            // Update button text.
+            uploadButton.innerHTML = 'Uploading...';
+            // Get the selected files from the input.
+            var files = fileSelect.files;
+            
+            // Create a new FormData object.
+            var formData = new FormData();
+            
+            // The rest of the code will go here...
+            for (var i = 0; i < files.length; i++) {
+              var file = files[i];
+            }
+            // Check the file type.
+            if (!file.type.match('image.*')) {
+              continue;
+            }
+
+            // Add the file to the request.
+            formData.append('photos[]', file, file.name);
+/*
+            // Files
+            formData.append(name, file, filename);
+
+            // Blobs
+            formData.append(name, blob, filename);
+
+            // Strings
+            formData.append(name, value);  
+*/
+            // Set up the request.
+            var xhr = new XMLHttpRequest();
+            // Open the connection.
+            xhr.open('POST', url_ajax, true);
+            
+            // Set up a handler for when the request finishes.
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                // File(s) uploaded.
+                uploadButton.innerHTML = 'Upload';
+              } else {
+                alert('An error occurred!');
               }
-              })
-	};
+            };
+            
+            // Send the Data.
+            xhr.send(formData);
+        }
         
         function cargar(div, url) {
             $(div).load( url );
         }
+        
+
+</script>
+
+<input type="file" id="uploadfile" name="foto[]" />
+<input type="button" value="upload" onclick="upload()" />
+
+<script>
+    var objetoXHR = false;
+    var  resultados='';
+
+    if (window.XMLHttpRequest){
+            objetoXHR = new XMLHttpRequest();
+    }else if (window.ActiveXObject){
+            objetoXHR = new ActiveXObject("Microsoft.XMLHTTP") ;
+    }
+
+    function upload(){
+       var file = document.getElementById("uploadfile");
+
+       /* Create a FormData instance */
+       var formData = new FormData();
+       /* Add the file */
+       formData.append("upload", bien_id);
+       formData.append("upload", file.files[0]);
+
+       objetoXHR.open("post", url_ajax, true);
+       objetoXHR.setRequestHeader("Content-Type", "multipart/form-data");
+       objetoXHR.send(formData);  /* Send to server */ 
+    }
+     
+    /* Check the response status */  
+    objetoXHR.onreadystatechange = function(){
+        var resultados = document.getElementById("respuesta_ajax");
+        if (objetoXHR.readyState == 4 && objetoXHR.status == 200){
+            alert(objetoXHR.statusText);
+            resultados.innerHTML = '';
+        }else {
+            resultados.innerHTML = "<img src='<?php echo URL_HOME_ROOT ?>recursos/imagenes/ajax-loader.gif'/>"//"Cargando...";
+            //resultados.innerHTML = 'Enviando...';
+        }
+    }
 </script>

@@ -34,7 +34,7 @@
                 <div>
                 ";
             foreach ($datos['bienes'] as $key => $fila) {
-                $href = \core\URL::generar(array('bienes', 'inmueble', $fila['referencia']));
+                $href = \core\URL::generar(array('inmueble','ref', $fila['referencia']));
                 $title = ((isset($fila['resenha']) and strlen($fila['resenha'])) ? $fila['resenha'] : $fila['referencia']); 
                 
                 $img = isset($fila["foto"]) ? "<img class='img_cpm' src='".URL_ROOT."recursos/imagenes/bienes/".$fila["foto"]."' alt='{$fila['referencia']}' title='{$fila['referencia']}' />" :"<img/>";

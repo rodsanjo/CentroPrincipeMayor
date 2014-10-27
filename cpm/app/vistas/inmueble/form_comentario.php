@@ -9,8 +9,9 @@
 
 
         <input type="hidden" name="referencia" id="referencia"  value="<?php echo $fila['referencia']; ?>" />
-        <input type="hidden" name="web" id="web"  value="http://centroprincipemayor.url.ph/" />
+        <input type="hidden" name="web" id="web"  value="http://centroprincipemayor.esy.es/" />
 
+        <?php echo \core\HTML_Tag::span_error('validacion', $datos); ?>
         <button type="submit" class="boton1">Enviar</button>
 
         <br/><br/>

@@ -132,66 +132,6 @@ class bienes extends \core\Controlador {
    }
     
     /**
-     * Función que muestra un único inmueble con todos sus detalles pasando una referencia.
-     * @param array $datos
-     * @return type
-     */
-    public function inmueble(array $datos = array()) {
-        
-        if(isset($_REQUEST['p3'])){ //viene la referencia
-            $clausulas['where'] = " referencia like '%{$_GET['p3']}%' ";
-        }elseif(isset($_REQUEST['referencia'])){ //viene la referencia tras hacer un comentario
-            $clausulas['where'] = " referencia like '%{$_POST['referencia']}%' ";
-        }else{
-            $clausulas['where'] = '';   //Por si alguien maneja la URL sin introducir referencia, mostrará el primero
-        }
-        
-        if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, self::$tabla)) {
-            $datos['mensaje'] = 'El inmueble no existe';
-            \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
-            return;
-        }else{   
-            $datos['bien'] = $filas[0];
-            
-            //Usando articulo_id como FK buscamos los detalles del inmueble
-            $bien_id = $filas[0]['id'];
-            $clausulas['where'] = " bien_id like '%$bien_id%' ";
-            
-            //Para cuando existan detalles de algunos bienes
-            $tieneTipo = false;
-            if( $filas[0]['tipo'] == 'v'){
-                $filas = \modelos\Modelo_SQL::table(self::$tabla_dv)->select($clausulas);
-                $datos["detalles"] = $filas[0];
-                $tieneTipo = true;
-            }elseif( $filas[0]['tipo'] == 'g'){
-                $filas = \modelos\Modelo_SQL::table(self::$tabla_dg)->select($clausulas);
-                $datos["detalles"] = $filas[0];
-                $tieneTipo = true;
-            }
-            if($tieneTipo && isset($datos['detalles']['tipo_bien_id'])){
-                $tabla = \core\Modelo_SQL::get_prefix_tabla(self::$tabla_tb);
-                $sql = 'select tipo from '.$tabla.' where id = '.$datos['detalles']['tipo_bien_id'];
-                $datos['detalles']['tipo_bien'] = \modelos\Modelo_SQL::execute($sql);
-            }
-            
-        }
-        
-        //var_dump($datos);
-        
-        $datos['precio_venta'] = $datos['bien']['precio_venta'];    //Me lo guardo antes de la conversión para poder hacer calculos
-        //Mostramos los datos a modificar en formato europeo. Convertimos el formato de MySQL a europeo para su visualización
-        self::convertir_formato_mysql_a_ususario($datos['bien'], false);
-        if ( isset($datos['detalles']) ){
-            self::convertir_formato_mysql_a_ususario($datos['detalles']);
-        }
-
-        $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
-        $http_body = \core\Vista_Plantilla::generar('DEFAULT', $datos);
-        \core\HTTP_Respuesta::enviar($http_body);
-        
-    }
-    
-    /**
      * Presenta un formulario para insertar nuevas filas a la tabla
      * @param array $datos
      */
@@ -267,7 +207,7 @@ class bienes extends \core\Controlador {
 
         $datos["form_name"] = __FUNCTION__;
 
-        self::request_come_by_post();   //Si viene por POST sigue adelante
+         \core\HTTP_Requerimiento::request_come_by_post();  //Si viene por POST sigue adelante
         
         if ( ! isset($datos["errores"])) { // Si no es un reenvío desde una validación fallida
             $validaciones=array(
@@ -305,7 +245,7 @@ class bienes extends \core\Controlador {
      */
     public function validar_form_modificar(array $datos=array()) {
         
-        self::request_come_by_post();
+         \core\HTTP_Requerimiento::request_come_by_post();
 
         $validaciones = \modelos\bienes::$validaciones_update;
 
@@ -351,7 +291,7 @@ class bienes extends \core\Controlador {
         
         $datos["form_name"] = __FUNCTION__;
 
-        self::request_come_by_post();
+        \core\HTTP_Requerimiento::request_come_by_post();
 
         $validaciones= \modelos\bienes::$validaciones_delete;
         
@@ -383,7 +323,7 @@ class bienes extends \core\Controlador {
     
     public function validar_form_borrar(array $datos=array()) {	
         
-        self::request_come_by_post();
+         \core\HTTP_Requerimiento::request_come_by_post();
 
         $validaciones=array(
             "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/".self::$tabla."/id"
@@ -408,148 +348,7 @@ class bienes extends \core\Controlador {
             }
         }
 
-    }
-    
-    /**
-     * Función que mostrara un formulario para añadir detalles del inmueble seleccionado.
-     * En función del tipo de inmueble que reciba mostrará un formulario diferente.
-     * Si es la primera vez que se añaden detalles hará un insert primero para que exista la fila
-     * @param array $datos
-     */
-    public static function form_anhadir_detalles(array $datos=array()){
-        
-        $get = \core\HTTP_Requerimiento::get();
-        $datos["form_name"] = __FUNCTION__.'_'.$get['p3'];
-        
-        self::request_come_by_post();   //Si vienen por POST sigue adelante
-        
-        $datos['p3'] = $get['p3']; //Para poder usar en la vista.
-        $datos['values']['bien_id'] = \core\HTTP_Requerimiento::post('id'); //Siempre viaja string
-        //var_dump($get);
-        //var_dump($_SESSION);
-        
-        //$datos['values']['tipo_bien'] = $get['p3']; //Para poder usar en la vista.
-        //$datos['values']['bien_id'] = $_POST['id']; //Para poder usar en la vista.
-        
-        if( $get['p3'] == 'v' || $get['p3'] == 'g' ){       
-            $tabla = 'tabla_d'.$get['p3'];    //Voy a usar una variable de variable
-            
-            //Si es la primera vez que añadimos detalles, se inserta una nueva fila en la tabla
-            $clausulas['where'] = ' bien_id = '.$datos['values']['bien_id'] ;
-            if ( ! $filas = \modelos\Datos_SQL::select( $clausulas , self::$$tabla)){
-                if ( ! $validacion = \modelos\Datos_SQL::table( self::$$tabla )->insert($datos["values"])){ // Devuelve true o false
-                    $datos['mensaje'] = 'Ha surgido un problema inesperado. No se ha pueden añadir detalles en la bd.';
-                    \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);       
-                    return;
-                }
-            }
-            
-            //Ahora extraemos la fila insertada para mostrarla en el formulario
-            if ( ! isset($datos["errores"]) ) { // Si no es un reenvío desde una validación fallida
-                $validaciones = array(
-                    "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:bien_id/".self::$$tabla."/bien_id"
-                );
-                
-                //¡¡OJO!! Añado "false" o "is_null($datos['values']['bien_id']) && ! is_string($datos['values']['bien_id']) &&" porque no funciona, pierde el valor de $datos['values']['bien_id'] y no sé por que
-                //La razón es porque el formulario oculto que se envia con on_boton_onclik() tiene un input llamado id en vez de bien_id y la fucnión errores_validacion_request() crea dos variables quedandse vacio el bien_id
-                //Por ello me guardo la variable antes en otra porque al comprobar la validacion se pierde.
-                $bien_id = $datos['values']['bien_id'];
-                if (   ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
-                    $datos['mensaje'] = 'Datos erróneos para identificar el elemento a modificar';
-                    \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
-                    return;
-                }else{
-                    $clausulas['where'] = " bien_id = $bien_id ";
-                    if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, self::$$tabla)) {
-                        $datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
-                        \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
-                        return;
-                    }else{
-                        //En el select volvemos a recuperar $datos['values']['bien_id']
-                        $datos['values'] = $filas[0];
-                    }
-                }
-                
-            }
-
-            $datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
-            $http_body = \core\Vista_Plantilla::generar('DEFAULT', $datos);
-            \core\HTTP_Respuesta::enviar($http_body);
-        }else{
-            //Para que nos lleve a la misma ubicación donde estabamos:
-            $url_anterior = $_SESSION['url']['anterior'];
-            
-            $_SESSION["alerta"] = 'Lo siento, a este tipo de inmuebles no se le pueden añadir detalles';
-            \core\HTTP_Respuesta::set_header_line("location", $url_anterior);
-            \core\HTTP_Respuesta::enviar();
-            
-            //Mediante mensaje
-            //$datos['mensaje'] = 'Lo siento, a este tipo de inmuebles no se le pueden añadir detalles';
-            //\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
-        }
-        
-
-    }
-    
-    /**
-     * Valida los datos insertados por el usuario. Si estos son correctos mostrará la lista de bienes con 
-     * la nueva inserción, sino mostrará los errores por los que nos se admitió los datos introducidos.
-     * @param array $datos
-     */
-    public function validar_form_anhadir_detalles(array $datos=array()) {
-
-        $get = \core\HTTP_Requerimiento::get();
-        $tabla = 'tabla_d'.$get['p3'];    //Voy a usar una variable de variable
-        
-        $validaciones = \modelos\bienes::$validaciones_anhadir_detalles;
-        
-        if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones[$get['p3']], $datos)){  //validaciones en PHP
-            $datos["errores"]["errores_validacion"]="Corrija los errores, por favor.";
-        }else{
-            //$validacion = self::comprobar_files($datos);
-            if ($validacion) {
-                //Convertimos a formato MySQL
-                self::convertir_detalles_a_formato_mysql($datos['values'], $get['p3']);
-                
-                //Ponemos el nombre donde guardaremos las fotos de los detalles
-                //Creamos la carpeta por si aún no estuviera
-                $datos['values']['file_fotos'] = \modelos\ficheros::getNombreCarpeta($datos['values']['bien_id']);
-                $ficherosBienes_path = PATH_APPLICATION."recursos".DS."ficheros".DS."bienes";
-                \modelos\ficheros::crearCarpeta($ficherosBienes_path, $datos['values']['file_fotos']);
-                
-                //if ( ! $validacion = \modelos\Modelo_SQL::insert($datos["values"], self::$tabla)) // Devuelve true o false
-                if ( ! $validacion = \modelos\Datos_SQL::table(self::$$tabla)->update($datos["values"])) // Devuelve true o false
-                    $datos["errores"]["errores_validacion"]="No se han podido grabar los datos en la bd.";
-            }
-        }
-        if ( ! $validacion){ //Devolvemos el formulario para que lo intente corregir de nuevo
-            \core\Distribuidor::cargar_controlador(self::$controlador, 'form_anahdir_detalles', $datos);
-        }else{
-            // Se ha grabado la modificación. Devolvemos el control al la situacion anterior a la petición del form_modificar
-            //$datos = array("alerta" => "Se han grabado correctamente los detalles");
-            // Definir el controlador que responderá después de la inserción
-            //\core\Distribuidor::cargar_controlador(self::$tabla, 'index', $datos);
-            $_SESSION["alerta"] = "Se han grabado correctamente los detalles";
-            //header("Location: ".\core\URL::generar("self::$controlador/index"));
-            \core\HTTP_Respuesta::set_header_line("location", \core\URL::generar(self::$controlador."/index"));
-            \core\HTTP_Respuesta::enviar();
-        }
-    }
-    
-    
-    /**
-     * Si el requerimiento viene por GET nos mostrará un mensaje indicando que en esa sección
-     * no está permitida la entrada de datos de forma manual, y cargará el controlador mensajes.
-     * Si viene por POST, no devuelve nada, simplemente deja continuar la ejecución.
-     * @author Jorge Rodríguez <jergo23@gmail.com>
-     */
-    private static function request_come_by_post(){
-        If ( \core\HTTP_Requerimiento::method()!= 'POST'){
-            $datos['mensaje']="No se permiten añadir datos en la URL manualmanete para realizar la operación";
-            \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
-        }
-    }
-    
+    }    
 
     /**
      * Comprueba que los ficheros que el usuario intenta subir a la aplicación cumple con los requerimietnos exigidos.

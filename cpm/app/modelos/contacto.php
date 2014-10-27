@@ -13,9 +13,9 @@ class contacto extends \modelos\Modelo_SQL {
     
     public static $validaciones_insert_comentario = array(
         'nombre' => 'errores_requerido',
-        'email' => 'errores_email',
-        'phone' => 'errores_phone',
+        'email' => 'errores_texto',
+        'phone' => 'errores_texto',
         'referencia' => 'errores_requerido && errores_texto', //Este campo está oculto y será el asunto
-        'mensaje' => 'errores_requerido',
+        'comentario' => 'errores_requerido',
     );
 }

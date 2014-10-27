@@ -131,14 +131,14 @@ class contacto extends \core\Controlador {
 
         if (self::enviar_comentario_validar($datos) && $validacion_catcha) {
 
-            $_SESSION["mensaje"] = "Su mensaje ha sido enviado.";
+            $_SESSION["alerta"] = "Su mensaje ha sido enviado.";
 
             // Envío del email
             $to = \core\Configuracion::$email_info;
             $subject = 'Inmueble Ref: '.\core\Array_Datos::contenido("referencia", $_REQUEST);
             $from = \core\Configuracion::$email_noreply;
             
-            $mensaje = \core\Array_Datos::contenido("mensaje", $_REQUEST);
+            $mensaje = \core\Array_Datos::contenido("comentario", $_REQUEST);
             $nombre = $datos["values"]["nombre"];
             $responder_a = $datos["values"]["email"];
             $phone = $datos["values"]["phone"];
@@ -168,14 +168,15 @@ class contacto extends \core\Controlador {
             $additional_headers .= 'X-Mailer: PHP/' . phpversion();
 
             if ( $envio_email = mail($to, $subject, $message, $additional_headers))  {
-                $datos["mensaje"] = "<p style='float:none'>Su mensaje ha sido enviado con el siguiente texto:</p>$message";
+                $_SESSION["alerta"] = "Su mensaje ha sido enviado.";
             }
             else {
                 // Si falla el envío del email
-                $datos["mensaje"] .= "No se ha podido enviar el mensaje.";
+                $_SESSION["alerta"] = "Ha ocurrido un error en el envio";
             }
 
-            $this->cargar_controlador('mensajes', 'mensaje', $datos);
+            \core\Distribuidor::cargar_controlador('inmueble', 'ref');
+            //$this->cargar_controlador('mensajes', 'mensaje', $datos);
 
         }
         else {
@@ -183,7 +184,7 @@ class contacto extends \core\Controlador {
                     usset($datos["errores"]);
                     $datos["errores"]["validacion"] = "Errores en el código catcha.";
             }
-            \core\Distribuidor::cargar_controlador('bienes', 'inmueble');
+            \core\Distribuidor::cargar_controlador('inmueble', 'ref');
         }
 		
     }
