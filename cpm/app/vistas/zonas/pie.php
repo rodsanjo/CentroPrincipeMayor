@@ -12,5 +12,8 @@
     $email = \core\Configuracion::$email_info;
 ?>
 
-<a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><br/>
-teléfono 628 11 64 30
+<a href="mailto:<?php echo $email; ?>">
+    <span class="glyphicon glyphicon-envelope"></span> <?php echo $email; ?>
+</a>
+<br/>
+<span class="glyphicon glyphicon-phone-alt"></span> 628 11 64 30

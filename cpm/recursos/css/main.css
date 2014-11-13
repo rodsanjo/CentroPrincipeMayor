@@ -9,6 +9,7 @@ body{
     background-size: 100% auto;
     color: black;
     font-family: 'Ubuntu', sans-serif;
+    padding-top: 35px; /* Para no dejar nada debajo de la barra de navegación fija en al parte superior*/
 }
 label{
     color:black;
@@ -43,7 +44,6 @@ label{
 #encabezado{
     color: white;
     background: rgb(174,205,145);
-    margin-top: 40px;
 }
 
 #encabezado h3{

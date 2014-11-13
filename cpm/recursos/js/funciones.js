@@ -1,7 +1,8 @@
 function abrirImagen(nombre_foto){
     //url = 'http://localhost/web/CentroPrincipeMayor/cpm/recursos/imagenes/bienes/' + nombre_foto;
-    url = '../../../recursos/imagenes/bienes/' + nombre_foto;
-    //alert('hola');
+    //url = '../../../recursos/imagenes/bienes/' + nombre_foto;
+    //url = '<?php echo URL_ROOT ?>recursos/imagenes/bienes/' + nombre_foto;
+    alert(url);
     ventana2=window.open(url,'fotos inmueble','width=500, height=600');
     ventana2.window.moveTo(400,100);
     ventana2.window.focus();

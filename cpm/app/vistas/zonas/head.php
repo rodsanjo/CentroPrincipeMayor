@@ -1,14 +1,16 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 <meta http-equiv="Content-Type" content="text/html" charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--Mostrar sitios para móviles en escala correcta con viewport-->
+<meta name="viewport" content="width=750, initial-scale=0.5">
 
 <title>Centro Príncipe Mayor</title>
 <link href="<?php echo URL_ROOT ?>favicon.ico" rel="shortcut icon" type="image/x-icon" />
 <link href="<?php echo URL_ROOT ?>favicon.ico" rel="icon" type="image/x-icon" /> 
 
-<meta name="Description" content="Empresa de investigación privada" />
-<meta name="Keywords" content="detective,arte,detectives,artedetectives,investigacion,privado,seriedad,discreción" />
+<meta name="title" content="Centro Príncipe Mayor"/>
+
+<meta name="Description" content="Inmobiliaria dedicada principalmente a la venta de viviendas en la provincia de Madrid. Página Web que utiliza geolocalización para mostrar ubicaciones." />
 <meta name="rating" content="General"/>
 <meta name="Generator" content="con qué se ha hecho" />
 <meta name="Origen" content="Quíen lo ha hecho: Jergo" />

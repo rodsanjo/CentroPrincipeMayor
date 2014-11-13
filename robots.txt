@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:/home/
+Disallow:/cpm/recursos/
+sitemap: /cpm/sitemap.xml

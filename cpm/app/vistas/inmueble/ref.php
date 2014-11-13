@@ -5,7 +5,7 @@ $fila = $datos['bien'];
 $href = \core\URL::generar(array('bienes', 'inmueble', $fila['referencia']));
 $title = ((isset($fila['resenha']) and strlen($fila['resenha'])) ? $fila['resenha'] : $fila['referencia']); 
 
-$img = isset($fila["foto"]) ? "<img class='img_cpm' src='".URL_ROOT."recursos/imagenes/bienes/".$fila["foto"]."' alt='{$fila['referencia']}' title='{$fila['referencia']}' />" :"<img/>";
+$img = isset($fila["foto"]) ? "<img class='img_cpm img-thumbnail' src='".URL_ROOT."recursos/imagenes/bienes/".$fila["foto"]."' alt='{$fila['referencia']}' title='{$fila['referencia']}' />" :"<img/>";
 
 //Llamamos a una función que convierta el resto de datos a formato de la vista
 $v = modelos\inmueble::formatoVistaInmuebleRef($fila);
@@ -54,13 +54,20 @@ $texto = \modelos\inmueble::insertarSaltosDeCarro($fila);
         </div>
         
         <div id="izquierda">
-            <img class='foto_portada' src='<?php echo URL_ROOT."recursos/imagenes/bienes/".$fila["foto"]; ?>' alt='<?php echo $fila['referencia']; ?>' title='<?php echo "foto ".$fila['referencia']; ?>' onclick="abrirImagen(<?php echo $fila['foto']; ?>);"/>
+            <img class='foto_portada img-thumbnail' src='<?php echo URL_ROOT."recursos/imagenes/bienes/".$fila["foto"]; ?>' alt='<?php echo $fila['referencia']; ?>' title='<?php echo "foto ".$fila['referencia']; ?>' onclick="abrirImagenRef('<?php echo $fila['foto']; ?>','<?php echo "foto ".$fila['referencia']; ?>');"/>
             <div id="resenha">
                 <p><?php echo $texto['resenha'] ?></p>
             </div>
+<!--            <div id="masFotos" class="row">
+                <div class="col-sm-6 col-md-3">
+                    <a href="#" class="thumbnail">
+                        <img data-src="" alt=""/>
+                    </a>
+                </div>                
+            </div>-->
             <div id="mapa">
                 <center><div id="mapholder"></div></center>
-                <button id="botonMostrarMapa"  onclick="getLocation();">Mostrar ubicación</button>
+                <a class="btn btn-primary btn-lg" role="button" id="botonMostrarMapa"  onclick="getLocation();">Mostrar ubicación</a>
                 <form name="frmCoord">
 <!-- Evento dentro del button: onmousemove="utm_a_LatLon();"
                     <div id="coord_utm">
@@ -143,3 +150,15 @@ $texto = \modelos\inmueble::insertarSaltosDeCarro($fila);
         </div>
     </div>
 </div>
+
+<script type='text/javascript'>
+    function abrirImagenRef(nombre_foto,titulo){
+        //url = 'http://localhost/web/CentroPrincipeMayor/cpm/recursos/imagenes/bienes/' + nombre_foto;
+        //url = '../../../recursos/imagenes/bienes/' + nombre_foto;
+        url = '<?php echo URL_ROOT ?>recursos/imagenes/bienes/' + nombre_foto;
+        //alert('hola');
+        ventana2=window.open(url,titulo,'width=500, height=600');
+        ventana2.window.moveTo(400,100);
+        ventana2.window.focus();
+    }
+</script>
